@@ -1,4 +1,19 @@
-body{background-color:#ccf;color:blue;display:flex;flex-direction:column}.center{display:flex;align-items:center;justify-content:center}.card{background:white;height:50vh;width:50vw;border-radius:15px;margin-top:15px;box-shadow:3px 3px 5px 5px #009,1px 0px 1px #009}.rando{display:flex;flex-direction:column}.rando btn{height:2em;background:magenta;color:white;width:10vmax;text-align:center;padding-top:5px;font-family:Arial, Helvetica, sans-serif;border-radius:20px;line-height:1.5}.rando p{font-family:Arial, Helvetica, sans-serif;color:blueviolet;font-weight:500;font-size:5vmin}.image-card{background-image:url(images/yoda-stitch.jpg);background-position:center}h2{font-size:3rem}
+* {
+  margin: 0;
+  padding: 0; }
+
+/* to remove the top and left whitespace */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: black; }
+
+/* just to be sure these are full screen*/
+canvas {
+  display: block; }
+
+/* To remove the scrollbars */
 
 
-/*# sourceMappingURL=main.css.map*/
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvc3R5bGVzL2luZGV4LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBLGFBQWE7O0FBRWI7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLDBCQUEwQjs7QUFFMUI7QUFDQTtBQUNBLGlCQUFpQjs7QUFFakIiLCJmaWxlIjoibWFpbi5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIqIHtcbiAgbWFyZ2luOiAwO1xuICBwYWRkaW5nOiAwOyB9XG5cbi8qIHRvIHJlbW92ZSB0aGUgdG9wIGFuZCBsZWZ0IHdoaXRlc3BhY2UgKi9cbmh0bWwsXG5ib2R5IHtcbiAgd2lkdGg6IDEwMCU7XG4gIGhlaWdodDogMTAwJTtcbiAgYmFja2dyb3VuZC1jb2xvcjogYmxhY2s7IH1cblxuLyoganVzdCB0byBiZSBzdXJlIHRoZXNlIGFyZSBmdWxsIHNjcmVlbiovXG5jYW52YXMge1xuICBkaXNwbGF5OiBibG9jazsgfVxuXG4vKiBUbyByZW1vdmUgdGhlIHNjcm9sbGJhcnMgKi9cbiJdLCJzb3VyY2VSb290IjoiIn0=*/
