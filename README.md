@@ -4,7 +4,7 @@ This is a Algorithm-Viewer, which allows the user to select an algorithm and vis
 
 ## MVP List
 * Able to Select different algorithms to be visially executed
-* Visually executed algorithms look stunning and make use of of three.js
+* Visually executed algorithms look stunning and make use of of d3.js
 * Able to slow down, speed up or pause visual display
 * There is a user selected input that matches the asthetic, for how many data points to use in algorithm
 
@@ -26,11 +26,11 @@ This is a Algorithm-Viewer, which allows the user to select an algorithm and vis
 * ### DAY 1
     * Complete hosting and having a complete site rendering with algorithm logic in place (quicksort), start to learn the d3.js library and finilize visual style to implement
 * ### DAY 2
-    * Use the in place logic of the algorithm, and start to implemnt and replace it with three.js graphics
+    * Use the in place logic of the algorithm, and start to implemnt and replace it with d3.js graphics
 * ### DAY 3
     * Continue the implementation.
 * ### DAY 4
-    * Start a New algorithm (Merge Sort), writing the main implementation ut first along with the button to switch to the new algorithm. Starting the Three.js visual styling
+    * Start a New algorithm (Merge Sort), writing the main implementation ut first along with the button to switch to the new algorithm. Starting the d3.js visual styling
 * ### DAY 5
     * Finishing up the visual styling for the previous Algorithm, if Done moving on to either Radix Sort or Djikstra Algorithm, the latter would require a different visual scheme.
 
