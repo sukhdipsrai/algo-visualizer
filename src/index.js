@@ -21,7 +21,7 @@ function myFunc() {
     let myTri = [];
     while (sum < canvas.canvas.width) {
         let nextWidth = Math.ceil(Math.random(400) * 100);
-        const newTri = new Triangle(canvas, blueRandomizer(), sum, nextWidth);
+        const newTri = new Triangle(canvas, blueRandomizer(sum), sum, nextWidth);
         sum += nextWidth;
         newTri.draw();
         myTri.push(newTri);
@@ -35,15 +35,18 @@ function myFunc() {
 
 
 
-    function blueRandomizer() {
+    function blueRandomizer(inputshade) {
         const upper = 130;
         let part1 = Math.floor((Math.random() * 130));
         let part2 = Math.floor((Math.random() * 130));
         if (part1.length == 1) part1 = "0" + part1;
         if (part2.length == 1) part2 = "0" + part2;
 
-        part1 = part1.toString(16);
-        part2 = part2.toString(16);
+        let shadeVal = Math.ceil((inputshade / window.innerWidth) * 255);
+        if (shadeVal < 10) shadeVal = "0" + shadeVal
+            // part1 = part1.toString(16);
+        part1 = "3C"
+        part2 = shadeVal.toString(16);
 
         return `#${part1+part2}ff`;
     }
