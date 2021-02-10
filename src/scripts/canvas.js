@@ -31,6 +31,8 @@ class canvasExample {
     // }
     clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
     }
     setColor(color) {
         this.fillColor = color;

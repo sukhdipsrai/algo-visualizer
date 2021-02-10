@@ -14,43 +14,50 @@ const canvas = new canvasExample();
 canvas.createCanvas();
 
 function myFunc() {
-    clearDemo()
-
+    // clearDemo()
     // canvas.clearCavnas();
-    let sum = 0;
     let myTri = [];
+
+    let sum = 0;
+
     while (sum < canvas.canvas.width) {
         let nextWidth = 0;
-        if (canvas.canvas.width - sum < 100) nextWidth = canvas.canvas.width - sum;
+        if (canvas.canvas.width - sum < 100)
+            nextWidth = canvas.canvas.width - sum;
         else nextWidth = Math.ceil(Math.random(400) * 100);
-        const newTri = new Triangle(canvas, blueRandomizer(nextWidth, 100), sum, nextWidth);
+        const newTri = new Triangle(
+            canvas,
+            blueRandomizer(nextWidth, 100),
+            nextWidth / canvas.canvas.width
+        );
+        // newTri.draw(sum);
         sum += nextWidth;
-        newTri.draw();
         myTri.push(newTri);
-        console.log(newTri)
+        // console.log(newTri);
     }
 
-    // let blue = blueRandomizer();
-    // console.log(blue);
-    // const myTriangle = new Triangle(canvas, blue, 100);
-    // myTriangle.draw();
+    const animation = () => {
+        let sum = 0;
+        canvas.clearCanvas();
+        for (let i = 0; i < myTri.length; i++) {
+            myTri[i].draw(sum);
+            sum += (myTri[i].xDist * canvas.canvas.width)
+        }
+        window.requestAnimationFrame(animation);
+    }
+
+    window.requestAnimationFrame(animation);
 
 
-
+    // Logic preformed on G value, keeping R abd B constant
     function blueRandomizer(inputshade, maxVal) {
-        const upper = 130;
-        let part1 = Math.floor((Math.random() * 130));
-        let part2 = Math.floor((Math.random() * 130));
-        if (part1.length == 1) part1 = "0" + part1;
-        if (part2.length == 1) part2 = "0" + part2;
-
         let shadeVal = Math.ceil((inputshade / maxVal) * 255);
-        if (shadeVal < 10) shadeVal = "0" + shadeVal
-            // part1 = part1.toString(16);
-        part1 = "3C"
-        part2 = shadeVal.toString(16);
 
-        return `#${part1+part2}ff`;
+        if (shadeVal < 10) shadeVal = "0" + shadeVal;
+        let rValue = "3C";
+        let gValue = shadeVal.toString(16);
+
+        return `#${rValue + gValue}ff`;
     }
 }
 

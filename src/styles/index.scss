@@ -29,7 +29,7 @@ body {
 
 #top-bar {
     width: auto;
-    height: 40px;
+    height: 7vh;
     background-color: rgba(82, 70, 70, 0.575);
     button {
         background-color: black;
@@ -46,6 +46,10 @@ body {
     }
      :hover {
         opacity: 1;
+    }
+     :focus {
+        border: 0;
+        outline: 0;
     }
 }
 

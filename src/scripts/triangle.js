@@ -1,13 +1,13 @@
 class Triangle {
-    constructor(canvas, color, xStart, xDist) {
+    constructor(canvas, color, xDist) {
         this.canvas = canvas;
-        this.ctc = this.canvas.ctx;
+        this.ctx = this.canvas.ctx;
         this.xDist = xDist;
-        this.xStart = xStart
         this.color = color;
     }
 
-    draw() {
+    draw(xStart) {
+        this.xStart = xStart;
         var canvasElement = document.getElementById("canvas");
         let ctx = this.canvas.ctx;
         let cw = canvasElement.width - 50;
@@ -27,7 +27,7 @@ class Triangle {
             x2: this.xStart,
             y2: ch,
             //calculate the 3-rd vertex
-            x3: this.xStart + this.xDist,
+            x3: this.xStart + (this.xDist * canvasElement.width),
             y3: ch,
         };
 
