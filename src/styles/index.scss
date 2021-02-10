@@ -20,5 +20,34 @@ canvas {
     display: block;
 }
 
+body {
+    overflow-y: hidden;
+    /* Hide vertical scrollbar */
+    overflow-x: hidden;
+    /* Hide horizontal scrollbar */
+}
+
+#top-bar {
+    width: auto;
+    height: 40px;
+    background-color: rgba(82, 70, 70, 0.575);
+    button {
+        background-color: black;
+        color: white;
+        box-shadow: none;
+        border: 0;
+        height: 4vh;
+        width: 8vw;
+        opacity: .5;
+    }
+    button:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+     :hover {
+        opacity: 1;
+    }
+}
+
 
 /* To remove the scrollbars */

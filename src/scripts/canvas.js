@@ -2,7 +2,7 @@ class canvasExample {
     constructor(props) {
         this.canvas = document.createElement("canvas");
         this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight - 200;
+        this.canvas.height = window.innerHeight;
         this.canvas.setAttribute("height", `${window.innerHeight}`)
 
         this.canvas.setAttribute("id", "canvas");

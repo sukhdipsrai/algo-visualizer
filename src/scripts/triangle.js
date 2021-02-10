@@ -39,7 +39,7 @@ class Triangle {
         ctx.lineTo(triangle.x1, triangle.y1);
         ctx.closePath();
         ctx.fillStyle = this.color;
-        ctx.strokeStyle = "white";
+        ctx.strokeStyle = this.color;
         ctx.fill();
 
         ctx.stroke();
