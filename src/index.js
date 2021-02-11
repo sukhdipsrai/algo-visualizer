@@ -19,16 +19,26 @@ function myFunc() {
     let myTri = [];
     let sum = 0;
 
-    let playButton = document.createElement('button');
-    playButton.id = 'playButton';
-    playButton.innerHTML = "PLAY";
-    playButton.addEventListener("click", startQS);
+    if (document.getElementById('playButton') === null) {
+        let playButton = document.createElement('button');
+        playButton.id = 'playButton';
+        playButton.innerHTML = "PLAY";
+        playButton.addEventListener("click", startQS);
+        document.getElementById('button-controls').appendChild(playButton);
+    } else {
+        document.getElementById('playButton').addEventListener('click', startQS);
+    }
 
-    document.getElementById('button-controls').appendChild(playButton);
-    let forwardButton = document.createElement('button');
-    forwardButton.id = 'forwardButton';
-    forwardButton.innerHTML = "FORWARD";
-    document.getElementById('button-controls').appendChild(forwardButton);
+    if (document.getElementById('forwardButton') === null) {
+        let forwardButton = document.createElement('button');
+        forwardButton.id = 'forwardButton';
+        forwardButton.innerHTML = "FORWARD";
+        document.getElementById('button-controls').appendChild(forwardButton);
+        document.getElementById('forwardButton').addEventListener('click', testSleep);
+    } else {
+        document.getElementById('forwardButton').addEventListener('click', testSleep);
+
+    }
 
     while (sum < canvas.canvas.width) {
         let nextWidth = 0;
@@ -50,12 +60,14 @@ function myFunc() {
     const animation = () => {
         let sum = 0;
         if (animating) {
-            canvas.clearCanvas();
-            for (let i = 0; i < myTri.length; i++) {
-                myTri[i].draw(sum);
-                sum += (myTri[i].xDist * canvas.canvas.width)
-            }
+
             window.requestAnimationFrame(animation);
+        }
+
+        canvas.clearCanvas();
+        for (let i = 0; i < myTri.length; i++) {
+            myTri[i].draw(sum);
+            sum += (myTri[i].xDist * canvas.canvas.width)
         }
     }
 
@@ -74,52 +86,64 @@ function myFunc() {
 
         return `#${rValue + gValue}ff`;
     }
+    let test = [5, 12, 1, 12, 1253, 1212, 652, -1, -5];
 
     function startQS() {
+        animating = false;
         quickSort(myTri, 0, myTri.length - 1)
-        displayLength();
+        displayLength(myTri);
+        animating = true;
+    }
+
+    function displayLength(arr) {
+        let str = "";
+        for (let x = 0; x < arr.length; x++)
+            str += arr[x].xDist + " "
+        return str;
+    }
+
+    function sleep(milliseconds) {
+        return new Promise(function(resolve, reject) {
+            setTimeout(resolve, milliseconds);
+        });
+    }
+
+    function testSleep() {
+        sleep(5000).then(() => console.log("test sleep"))
+
     }
 
     function quickSort(arr, start, end, xStart = 0) {
         if (start < end) {
-            debugger;
             let pi = quickSortPartition(arr, start, end)
-
+            debugger;
             quickSort(arr, start, pi - 1);
             quickSort(arr, pi + 1, end);
         }
     }
 
-    function displayLength() {
-        for (let x = 0; x < myTri.length; x++)
-            console.log(myTri[x].xDist)
-    }
+
 
     function quickSortPartition(arr, start, end) {
         let pivot = arr[end].xDist;
         let i = start - 1; // tracking pivot location
-        debugger;
-        for (let j = start; j < end; j++) {
+        let j = start;
+        while (j < end) {
             if (arr[j].xDist < pivot) {
                 i++;
                 const temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
-                // arr[j] = arr[i];
-                // arr[i] = temp;
             }
-            // i should be the location where pivot value must go
-            // is final swap neccesary, pass by ref?
-            // const temp = arr[i];
-            // arr[i] = arr[end];
-            // arr[end] = temp;
-            const temp = arr[i + 1];
-            arr[i + 1] = arr[end];
-            arr[end] = temp;
-            return i + 1;
+            j++;
         }
+        const temp = arr[i + 1];
+        arr[i + 1] = arr[end];
+        arr[end] = temp;
+        return i + 1;
     }
 }
+
 
 // Square constructor gets a canvas property, coords , color
 
