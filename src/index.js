@@ -22,6 +22,8 @@ function myFunc() {
     let playButton = document.createElement('button');
     playButton.id = 'playButton';
     playButton.innerHTML = "PLAY";
+    playButton.addEventListener("click", startQS);
+
     document.getElementById('button-controls').appendChild(playButton);
     let forwardButton = document.createElement('button');
     forwardButton.id = 'forwardButton';
@@ -44,16 +46,22 @@ function myFunc() {
         // console.log(newTri);
     }
 
-    const animation = (sum) => {
-        canvas.clearCanvas();
-        for (let i = 0; i < myTri.length; i++) {
-            myTri[i].draw(sum);
-            sum += (myTri[i].xDist * canvas.canvas.width)
+    let animating = true; // turn off with play button, quiksort will control animations
+    const animation = () => {
+        let sum = 0;
+        if (animating) {
+            canvas.clearCanvas();
+            for (let i = 0; i < myTri.length; i++) {
+                myTri[i].draw(sum);
+                sum += (myTri[i].xDist * canvas.canvas.width)
+            }
+            window.requestAnimationFrame(animation);
         }
-        window.requestAnimationFrame(animation(50));
     }
 
-    window.requestAnimationFrame(animation(0));
+    window.requestAnimationFrame(animation);
+
+
 
 
     // Logic preformed on G value, keeping R abd B constant
@@ -67,8 +75,49 @@ function myFunc() {
         return `#${rValue + gValue}ff`;
     }
 
-    function quickSort(arr, start, end, xStart = 0) {
+    function startQS() {
+        quickSort(myTri, 0, myTri.length - 1)
+        displayLength();
+    }
 
+    function quickSort(arr, start, end, xStart = 0) {
+        if (start < end) {
+            debugger;
+            let pi = quickSortPartition(arr, start, end)
+
+            quickSort(arr, start, pi - 1);
+            quickSort(arr, pi + 1, end);
+        }
+    }
+
+    function displayLength() {
+        for (let x = 0; x < myTri.length; x++)
+            console.log(myTri[x].xDist)
+    }
+
+    function quickSortPartition(arr, start, end) {
+        let pivot = arr[end].xDist;
+        let i = start - 1; // tracking pivot location
+        debugger;
+        for (let j = start; j < end; j++) {
+            if (arr[j].xDist < pivot) {
+                i++;
+                const temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                // arr[j] = arr[i];
+                // arr[i] = temp;
+            }
+            // i should be the location where pivot value must go
+            // is final swap neccesary, pass by ref?
+            // const temp = arr[i];
+            // arr[i] = arr[end];
+            // arr[end] = temp;
+            const temp = arr[i + 1];
+            arr[i + 1] = arr[end];
+            arr[end] = temp;
+            return i + 1;
+        }
     }
 }
 
