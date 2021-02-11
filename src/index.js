@@ -17,8 +17,16 @@ function myFunc() {
     // clearDemo()
     // canvas.clearCavnas();
     let myTri = [];
-
     let sum = 0;
+
+    let playButton = document.createElement('button');
+    playButton.id = 'playButton';
+    playButton.innerHTML = "PLAY";
+    document.getElementById('button-controls').appendChild(playButton);
+    let forwardButton = document.createElement('button');
+    forwardButton.id = 'forwardButton';
+    forwardButton.innerHTML = "FORWARD";
+    document.getElementById('button-controls').appendChild(forwardButton);
 
     while (sum < canvas.canvas.width) {
         let nextWidth = 0;
@@ -36,17 +44,16 @@ function myFunc() {
         // console.log(newTri);
     }
 
-    const animation = () => {
-        let sum = 0;
+    const animation = (sum) => {
         canvas.clearCanvas();
         for (let i = 0; i < myTri.length; i++) {
             myTri[i].draw(sum);
             sum += (myTri[i].xDist * canvas.canvas.width)
         }
-        window.requestAnimationFrame(animation);
+        window.requestAnimationFrame(animation(50));
     }
 
-    window.requestAnimationFrame(animation);
+    window.requestAnimationFrame(animation(0));
 
 
     // Logic preformed on G value, keeping R abd B constant
@@ -58,6 +65,10 @@ function myFunc() {
         let gValue = shadeVal.toString(16);
 
         return `#${rValue + gValue}ff`;
+    }
+
+    function quickSort(arr, start, end, xStart = 0) {
+
     }
 }
 
