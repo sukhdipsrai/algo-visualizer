@@ -123,7 +123,6 @@ function myFunc() {
         myTri = [];
         let sum = 0;
         // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
-        //TODO: rework kinks in this logic
         while (sum < canvas.canvas.width - (255 / sliceFactor)) {
             let nextWidth = 0;
             nextWidth = Math.floor((Math.random() * 254) + 1);
@@ -173,17 +172,19 @@ function myFunc() {
         document.getElementById("playButton").hidden = true;
         document.getElementById("forwardButton").hidden = true;
         document.getElementById('sliceButton').hidden = true;
-        document.getElementById("resetButton").disabled = true;
+        let resetButton = document.getElementById("resetButton");
+        resetButton.disabled = true;
+        resetButton.classList.add('unclickable');
         animating = false;
         quickSort(myTri, 0, myTri.length - 1).then(() => {
             animating = true;
             window.requestAnimationFrame(animation);
-            document.getElementById("resetButton").disabled = false;
+            resetButton.disabled = false;
+            resetButton.classList.remove('unclickable');
         });
     }
 
     function quickSort(arr, start, end, xStart = 0) {
-        // console.log("sorting");
         // needed to setup a strong resolve, need to come back to this , reason: for pausing animation
         return new Promise(resolve => {
             if (start < end) {
@@ -229,66 +230,66 @@ function myFunc() {
 
 // Square constructor gets a canvas property, coords , color
 
-function startCanvas() {
-    clearDemo();
-    unregisterEventListeners();
-    currentStateObj.currentExample = "CANVASDEMO";
-    const canvas = new canvasExample();
-    canvas.createCanvas();
-    const squares = [new Square(canvas.ctx, canvas.coords, canvas.fillColor)];
+// function startCanvas() {
+//     clearDemo();
+//     unregisterEventListeners();
+//     currentStateObj.currentExample = "CANVASDEMO";
+//     const canvas = new canvasExample();
+//     canvas.createCanvas();
+//     const squares = [new Square(canvas.ctx, canvas.coords, canvas.fillColor)];
 
-    let animating = true;
+//     let animating = true;
 
-    const animation = () => {
-        canvas.clearCanvas();
-        if (animating) squares.forEach((sq) => sq.updateSquare(canvas.fillColor));
-        squares.forEach((sq) => sq.drawSquare());
-        window.requestAnimationFrame(animation);
-        squares.forEach((sq) => {
-            if (sq.coords[0] + sq.coords[2] > window.innerWidth)
-                sq.reverseAnimation();
-            if (sq.coords[0] < 0) sq.reverseAnimation();
-        });
-    };
+//     const animation = () => {
+//         canvas.clearCanvas();
+//         if (animating) squares.forEach((sq) => sq.updateSquare(canvas.fillColor));
+//         squares.forEach((sq) => sq.drawSquare());
+//         window.requestAnimationFrame(animation);
+//         squares.forEach((sq) => {
+//             if (sq.coords[0] + sq.coords[2] > window.innerWidth)
+//                 sq.reverseAnimation();
+//             if (sq.coords[0] < 0) sq.reverseAnimation();
+//         });
+//     };
 
-    window.requestAnimationFrame(animation);
+//     window.requestAnimationFrame(animation);
 
-    window.addEventListener("keydown", handleKeyDown);
-    currentStateObj.currentEventListeners.push([
-        "window",
-        "keydown",
-        handleKeyDown,
-    ]);
+//     window.addEventListener("keydown", handleKeyDown);
+//     currentStateObj.currentEventListeners.push([
+//         "window",
+//         "keydown",
+//         handleKeyDown,
+//     ]);
 
-    window.addEventListener("mousedown", handleMouseDown);
-    currentStateObj.currentEventListeners.push([
-        "window",
-        "mousedown",
-        handleMouseDown,
-    ]);
+//     window.addEventListener("mousedown", handleMouseDown);
+//     currentStateObj.currentEventListeners.push([
+//         "window",
+//         "mousedown",
+//         handleMouseDown,
+//     ]);
 
-    // 32 is ASCII for space, randomize color
-    function handleKeyDown(event) {
-        if (event.which === 32) {
-            event.preventDefault();
-            squares.forEach((sq) => sq.reverseAnimation());
-            canvas.setColor(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
-        }
-    }
+//     // 32 is ASCII for space, randomize color
+//     function handleKeyDown(event) {
+//         if (event.which === 32) {
+//             event.preventDefault();
+//             squares.forEach((sq) => sq.reverseAnimation());
+//             canvas.setColor(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
+//         }
+//     }
 
-    // on click animate new square
-    function handleMouseDown(event) {
-        event.preventDefault();
-        squares.push(
-            new Square(
-                canvas.ctx,
-                canvas.coords.map((co) => co + 25),
-                canvas.fillColor
-            )
-        );
-        // animating = !animating;
-    }
-}
+//     // on click animate new square
+//     function handleMouseDown(event) {
+//         event.preventDefault();
+//         squares.push(
+//             new Square(
+//                 canvas.ctx,
+//                 canvas.coords.map((co) => co + 25),
+//                 canvas.fillColor
+//             )
+//         );
+//         // animating = !animating;
+//     }
+// }
 
 function unregisterEventListeners() {
     while (currentStateObj.currentEventListeners.length) {
