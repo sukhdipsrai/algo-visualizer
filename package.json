@@ -1,7 +1,7 @@
 {
-    "name": "js_project_skeleton",
+    "name": "algovisualiser",
     "version": "1.0.0",
-    "description": "skeleton for new JS project",
+    "description": "website visualizing algorithms",
     "main": "index.js",
     "browserslist": [
         "last 1 version",
@@ -14,8 +14,8 @@
         "dev:watch": "webpack --watch --config webpack.dev.js && NODE_ENV=development",
         "webpack:build": "webpack --config webpack.prod.js  --optimize-minimize && NODE_ENV=production"
     },
-    "author": "mrcjbradley",
-    "license": "ISC",
+    "author": "sukhdipsrai",
+    "license": "",
     "dependencies": {},
     "devDependencies": {
         "@babel/core": "^7.11.6",
