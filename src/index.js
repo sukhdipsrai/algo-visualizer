@@ -51,18 +51,18 @@ function myFunc() {
         if (speed > 100) speed = 20;
         else speed = 75;
     }
-    let sliceFactor = 1.5;
-    while (sum < canvas.canvas.width) {
+    let sliceFactor = 2;
+    // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
+    while (sum < canvas.canvas.width - 5) {
         let nextWidth = 0;
         if (canvas.canvas.width - sum < 255) nextWidth = canvas.canvas.width - sum;
-        else nextWidth = Math.floor((Math.random() * 100) + 155);
+        else nextWidth = Math.floor((Math.random() * 255));
         let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
+
         const newTri = new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist);
-        if (xDist > 1) {
-            debugger;
-        }
+        console.log(xDist);
         // newTri.draw(sum);
-        sum += xDist * canvas.canvas.width;
+        sum += (xDist * canvas.canvas.width);
         myTri.push(newTri);
         // console.log("sum", sum);
         // console.log("width", canvas.canvas.width);
