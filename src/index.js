@@ -19,7 +19,6 @@ function myFunc() {
     let speed = 5;
     let sliceFactor = 5; // increasing will create more triangle slices
 
-
     reset();
 
     function initializeButtons() {
@@ -122,6 +121,7 @@ function myFunc() {
     function startQS() {
         console.log(myTri.length);
         document.getElementById("playButton").remove();
+        document.getElementById("resetButton").hidden = true;
         animating = false;
         quickSort(myTri, 0, myTri.length - 1).then(() => {
             console.log("quicksort finished")
@@ -129,6 +129,8 @@ function myFunc() {
             window.requestAnimationFrame(animation);
             document.getElementById("forwardButton").remove();
             console.log(myTri[1])
+            document.getElementById("resetButton").hidden = false;
+
         });
     }
 
