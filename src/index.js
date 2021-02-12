@@ -64,8 +64,8 @@ function myFunc() {
     }
 
     function cycleSpeed() {
-        if (speed > 100) speed = 20;
-        else speed = 75;
+        if (speed == 5) speed = 100;
+        else speed = 5;
     }
 
     function reset() {
@@ -75,10 +75,9 @@ function myFunc() {
         myTri = [];
         let sum = 0;
         // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
-        while (sum < canvas.canvas.width - 5) {
+        //TODO: rework kinks in this logic
+        while (sum < canvas.canvas.width - 2) {
             let nextWidth = 0;
-            // if (canvas.canvas.width - sum < 255) nextWidth = canvas.canvas.width - sum;
-            // else 
             nextWidth = Math.floor((Math.random() * 255));
             let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
 
@@ -91,6 +90,10 @@ function myFunc() {
             // console.log("width", canvas.canvas.width);
             // console.log(newTri);
         }
+
+        // let nextWidth = Math.floor(canvas.canvas.width - sum);
+        // let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
+        // myTri.push(new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist));
     }
 
     const animation = () => {
