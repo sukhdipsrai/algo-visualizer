@@ -19,62 +19,73 @@ function myFunc() {
     let myTri = [];
     let sum = 0;
 
-    if (document.getElementById('playButton') === null) {
-        let playButton = document.createElement('button');
-        playButton.id = 'playButton';
+    if (document.getElementById("playButton") === null) {
+        let playButton = document.createElement("button");
+        playButton.id = "playButton";
         playButton.innerHTML = "PLAY";
         playButton.addEventListener("click", startQS);
-        document.getElementById('button-controls').appendChild(playButton);
+        document.getElementById("button-controls").appendChild(playButton);
     } else {
-        document.getElementById('playButton').addEventListener('click', startQS);
+        document.getElementById("playButton").addEventListener("click", startQS);
     }
 
-    if (document.getElementById('forwardButton') === null) {
-        let forwardButton = document.createElement('button');
-        forwardButton.id = 'forwardButton';
+    if (document.getElementById("forwardButton") === null) {
+        let forwardButton = document.createElement("button");
+        forwardButton.id = "forwardButton";
         forwardButton.innerHTML = "FORWARD";
-        document.getElementById('button-controls').appendChild(forwardButton);
-        document.getElementById('forwardButton').addEventListener('click', testSleep);
+        document.getElementById("button-controls").appendChild(forwardButton);
+        document
+            .getElementById("forwardButton")
+            .addEventListener("click", cycleSpeed);
     } else {
-        document.getElementById('forwardButton').addEventListener('click', testSleep);
-
+        document
+            .getElementById("forwardButton")
+            .addEventListener("click", cycleSpeed);
     }
 
-    while (sum < canvas.canvas.width) {
+    let speed = 50;
+
+    function cycleSpeed() {
+        if (speed === 100)
+            speed = 20;
+        else speed = 100;
+    }
+    let sliceFactor = 2;
+    while (sum < (canvas.canvas.width)) {
         let nextWidth = 0;
-        if (canvas.canvas.width - sum < 100)
-            nextWidth = canvas.canvas.width - sum;
-        else nextWidth = Math.ceil(Math.random(400) * 100);
+        if ((canvas.canvas.width) - sum < 255) nextWidth = canvas.canvas.width - sum;
+        else nextWidth = Math.floor((Math.random() * 254) + 1);
+        let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
         const newTri = new Triangle(
             canvas,
-            blueRandomizer(nextWidth, 100),
-            nextWidth / canvas.canvas.width
+            blueRandomizer(nextWidth, 255),
+            xDist
         );
+
         // newTri.draw(sum);
-        sum += nextWidth;
+        sum += (xDist * canvas.canvas.width);
         myTri.push(newTri);
+        // console.log("sum", sum);
+        // console.log("width", canvas.canvas.width);
         // console.log(newTri);
     }
 
     let animating = true; // turn off with play button, quiksort will control animations
+
+
     const animation = () => {
         let sum = 0;
-        if (animating) {
-
-            window.requestAnimationFrame(animation);
-        }
-
         canvas.clearCanvas();
         for (let i = 0; i < myTri.length; i++) {
             myTri[i].draw(sum);
-            sum += (myTri[i].xDist * canvas.canvas.width)
+            sum += myTri[i].xDist * canvas.canvas.width;
         }
-    }
+        if (animating) {
+            window.requestAnimationFrame(animation);
+        }
+    };
 
     window.requestAnimationFrame(animation);
-
-
-
 
     // Logic preformed on G value, keeping R abd B constant
     function blueRandomizer(inputshade, maxVal) {
@@ -86,64 +97,56 @@ function myFunc() {
 
         return `#${rValue + gValue}ff`;
     }
-    let test = [5, 12, 1, 12, 1253, 1212, 652, -1, -5];
 
     function startQS() {
+        document.getElementById('playButton').remove();
         animating = false;
-        quickSort(myTri, 0, myTri.length - 1)
-        displayLength(myTri);
-        animating = true;
+        quickSort(myTri, 0, myTri.length - 1);
     }
 
-    function displayLength(arr) {
-        let str = "";
-        for (let x = 0; x < arr.length; x++)
-            str += arr[x].xDist + " "
-        return str;
-    }
 
-    function sleep(milliseconds) {
-        return new Promise(function(resolve, reject) {
-            setTimeout(resolve, milliseconds);
-        });
-    }
-
-    function testSleep() {
-        sleep(5000).then(() => console.log("test sleep"))
-
-    }
 
     function quickSort(arr, start, end, xStart = 0) {
+        console.log("sorting");
+        // needed to setup a strong resolve, need to come back to this , reason: for pausing animation
         if (start < end) {
-            let pi = quickSortPartition(arr, start, end)
-            debugger;
-            quickSort(arr, start, pi - 1);
-            quickSort(arr, pi + 1, end);
+            quickSortPartition(arr, start, end).then(pi => {
+                quickSort(arr, start, pi - 1);
+                quickSort(arr, pi + 1, end);
+            })
         }
     }
-
 
 
     function quickSortPartition(arr, start, end) {
-        let pivot = arr[end].xDist;
-        let i = start - 1; // tracking pivot location
-        let j = start;
-        while (j < end) {
-            if (arr[j].xDist < pivot) {
-                i++;
-                const temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
+        return new Promise(function(resolve, reject) {
+            let pivot = arr[end].xDist;
+            let i = start - 1; // tracking pivot location
+            let j = start - 1;
+            while (j < end) {
+                j++;
+                swapAndRender(j);
             }
-            j++;
-        }
-        const temp = arr[i + 1];
-        arr[i + 1] = arr[end];
-        arr[end] = temp;
-        return i + 1;
-    }
-}
 
+            function swapAndRender(j) {
+                setTimeout(function() {
+                    if (arr[j].xDist <= pivot) {
+                        i++;
+                        if (i !== j) {
+                            console.log("swap happened");
+                            const temp = arr[i];
+                            arr[i] = arr[j];
+                            arr[j] = temp;
+                            window.requestAnimationFrame(animation);
+                        }
+
+                        if (j === end) resolve(i);
+                    }
+                }, speed * j);
+            }
+        });
+    }
+} // entire block
 
 // Square constructor gets a canvas property, coords , color
 

@@ -10,7 +10,7 @@ class Triangle {
         this.xStart = xStart;
         var canvasElement = document.getElementById("canvas");
         let ctx = this.canvas.ctx;
-        let cw = canvasElement.width - 50;
+        let cw = canvasElement.width;
         let ch = canvasElement.height - 400;
 
 
@@ -39,6 +39,7 @@ class Triangle {
         ctx.lineTo(triangle.x1, triangle.y1);
         ctx.closePath();
         ctx.fillStyle = this.color;
+        // pre production, line defaults to black
         ctx.strokeStyle = this.color;
         ctx.fill();
 
