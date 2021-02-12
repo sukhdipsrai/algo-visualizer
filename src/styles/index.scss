@@ -28,28 +28,47 @@ body {
 }
 
 #top-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: auto;
     height: 7vh;
     background-color: rgba(82, 70, 70, 0.575);
-    button {
-        background-color: black;
-        color: white;
-        box-shadow: none;
-        border: 0;
-        height: 4vh;
-        width: 8vw;
-        opacity: .5;
-    }
     button.clickable:hover {
         opacity: 1;
         cursor: pointer;
+        box-shadow: 0 12px 16px 0 rgba(114, 84, 84, 0.24), 0 17px 50px 0 rgba(238, 232, 232, 0.19);
     }
     button.unclickable:hover {
         opacity: .5;
         cursor: auto;
     }
-     :focus {
-        border: 0;
-        outline: 0;
+}
+
+button {
+    background-color: black;
+    color: white;
+    box-shadow: none;
+    border: 0;
+    height: 4vh;
+    width: 8vw;
+    min-width: 90px;
+    opacity: .5;
+    border: 1, blanchedalmond;
+}
+
+:focus {
+    border: 0;
+    outline: 0;
+}
+
+#button-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    button:hover {
+        opacity: 1;
+        cursor: pointer;
+        box-shadow: 0 12px 16px 0 rgba(114, 84, 84, 0.24), 0 17px 50px 0 rgba(238, 232, 232, 0.19);
     }
 }

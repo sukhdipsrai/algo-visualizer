@@ -16,8 +16,8 @@ canvas.createCanvas();
 function myFunc() {
     let myTri = [];
     let animating = true;
-    let speed = 5;
-    let sliceFactor = 15; // increasing will create more triangle slices
+    let speed = 100;
+    let sliceFactor = 2; // increasing will create more triangle slices
 
     reset();
 
@@ -30,16 +30,13 @@ function myFunc() {
         if (document.getElementById("forwardButton") === null) {
             let forwardButton = document.createElement("button");
             forwardButton.id = "forwardButton";
-            forwardButton.innerHTML = "FORWARD";
+            forwardButton.innerHTML = "FASTER";
             document.getElementById("button-controls").appendChild(forwardButton);
             document
                 .getElementById("forwardButton")
                 .addEventListener("click", cycleSpeed);
-            // } else {
-            //     document
-            //         .getElementById("forwardButton")
-            //         .addEventListener("click", cycleSpeed);
-        }
+        } else document.getElementById("playButton").hidden = false;
+
 
         if (document.getElementById("playButton") === null) {
             let playButton = document.createElement("button");
@@ -48,9 +45,17 @@ function myFunc() {
             playButton.addEventListener("click", startQS);
             const bCtrls = document.getElementById('button-controls')
             bCtrls.insertBefore(playButton, bCtrls.firstChild);
-            // } else {
-            //     document.getElementById("playButton").addEventListener("click", startQS);
-        }
+        } else document.getElementById("forwardButton").hidden = false;
+
+
+        if (document.getElementById("sliceButton") === null) {
+            let sliceButton = document.createElement("button");
+            sliceButton.id = 'sliceButton';
+            sliceButton.innerHTML = "MORE TRIANGLES";
+            sliceButton.addEventListener("click", cycleSlice)
+            const bCtrls = document.getElementById('button-controls')
+            bCtrls.insertBefore(sliceButton, document.getElementById("resetButton"))
+        } else document.getElementById('sliceButton').hidden = false;
 
 
         if (document.getElementById("resetButton") === null) {
@@ -64,9 +69,52 @@ function myFunc() {
     }
 
     function cycleSpeed() {
-        if (speed == 5) speed = 100;
-        else speed = 5;
+        if (speed == 5) {
+            speed = 100;
+            document.getElementById('forwardButton').innerHTML = "FASTER";
+        } else {
+            speed = 5;
+            document.getElementById('forwardButton').innerHTML = "SLOWER";
+
+        }
     }
+
+    function cycleSlice() {
+        let sliceButton = document.getElementById('sliceButton');
+        switch (sliceFactor) {
+            case 2:
+                debugger;
+                sliceFactor = 4;
+                reset();
+                sliceButton.innerHTML = ("EVEN MORE TRIANGLES");
+                return;
+            case 4:
+                debugger;
+                sliceFactor = 8;
+                reset();
+                sliceButton.innerHTML = ("MORE TRIANGLES...");
+                return;
+            case 8:
+                debugger;
+                sliceFactor = 12;
+                reset();
+                sliceButton.innerHTML = ("I SAID MORE!");
+                return;
+            case 12:
+                debugger;
+                sliceFactor = 20;
+                reset();
+                sliceButton.innerHTML = ("MAYBE NOT?");
+                return;
+            case 20:
+                debugger;
+                sliceFactor = 2;
+                reset();
+                sliceButton.innerHTML = ("MORE TRIANGLES");
+                return;
+        }
+    }
+
 
     function reset() {
         initializeButtons()
@@ -122,17 +170,15 @@ function myFunc() {
 
     function startQS() {
         console.log(myTri.length);
-        document.getElementById("playButton").remove();
-        document.getElementById("resetButton").hidden = true;
+        document.getElementById("playButton").hidden = true;
+        document.getElementById("forwardButton").hidden = true;
+        document.getElementById('sliceButton').hidden = true;
+        document.getElementById("resetButton").disabled = true;
         animating = false;
         quickSort(myTri, 0, myTri.length - 1).then(() => {
-            console.log("quicksort finished")
             animating = true;
             window.requestAnimationFrame(animation);
-            document.getElementById("forwardButton").remove();
-            console.log(myTri[1])
-            document.getElementById("resetButton").hidden = false;
-
+            document.getElementById("resetButton").disabled = false;
         });
     }
 
