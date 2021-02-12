@@ -17,7 +17,7 @@ function myFunc() {
     let myTri = [];
     let animating = true;
     let speed = 5;
-    let sliceFactor = 5; // increasing will create more triangle slices
+    let sliceFactor = 15; // increasing will create more triangle slices
 
     reset();
 
@@ -90,8 +90,8 @@ function myFunc() {
             // console.log("width", canvas.canvas.width);
             // console.log(newTri);
         }
-        let nextWidth = Math.floor(canvas.canvas.width - sum);
-        let xDist = nextWidth / (canvas.canvas.width);
+        let nextWidth = Math.floor(canvas.canvas.width - sum) * sliceFactor;
+        let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
         myTri.push(new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist));
     }
 
