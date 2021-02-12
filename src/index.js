@@ -51,7 +51,7 @@ function myFunc() {
         if (speed > 100) speed = 20;
         else speed = 75;
     }
-    let sliceFactor = 2;
+    let sliceFactor = 5;
     // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
     while (sum < canvas.canvas.width - 5) {
         let nextWidth = 0;
@@ -104,7 +104,7 @@ function myFunc() {
             console.log("quicksort finished")
             animating = true;
             window.requestAnimationFrame(animation);
-            document.getElementById("button-controls").remove();
+            document.getElementById("forwardButton").remove();
             console.log(myTri[1])
         });
     }
