@@ -40,18 +40,16 @@ body {
         width: 8vw;
         opacity: .5;
     }
-    button:hover {
+    button.clickable:hover {
         opacity: 1;
         cursor: pointer;
     }
-     :hover {
-        opacity: 1;
+    button.unclickable:hover {
+        opacity: .5;
+        cursor: auto;
     }
      :focus {
         border: 0;
         outline: 0;
     }
 }
-
-
-/* To remove the scrollbars */

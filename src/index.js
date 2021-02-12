@@ -14,63 +14,86 @@ const canvas = new canvasExample();
 canvas.createCanvas();
 
 function myFunc() {
-    // clearDemo()
     canvas.clearCanvas();
     let myTri = [];
-    let sum = 0;
+    let animating = true;
+    let speed = 5;
+    let sliceFactor = 5; // increasing will create more triangle slices
 
 
+    reset();
 
-    if (document.getElementById("forwardButton") === null) {
-        let forwardButton = document.createElement("button");
-        forwardButton.id = "forwardButton";
-        forwardButton.innerHTML = "FORWARD";
-        document.getElementById("button-controls").appendChild(forwardButton);
-        document
-            .getElementById("forwardButton")
-            .addEventListener("click", cycleSpeed);
-    } else {
-        document
-            .getElementById("forwardButton")
-            .addEventListener("click", cycleSpeed);
+    function initializeButtons() {
+        let qsb = document.querySelector("#quick-sort");
+        qsb.removeEventListener("click", myFunc);
+        qsb.classList.add("unclickable");
+        qsb.classList.remove("clickable");
+
+        if (document.getElementById("forwardButton") === null) {
+            let forwardButton = document.createElement("button");
+            forwardButton.id = "forwardButton";
+            forwardButton.innerHTML = "FORWARD";
+            document.getElementById("button-controls").appendChild(forwardButton);
+            document
+                .getElementById("forwardButton")
+                .addEventListener("click", cycleSpeed);
+            // } else {
+            //     document
+            //         .getElementById("forwardButton")
+            //         .addEventListener("click", cycleSpeed);
+        }
+
+        if (document.getElementById("playButton") === null) {
+            let playButton = document.createElement("button");
+            playButton.id = "playButton";
+            playButton.innerHTML = "PLAY";
+            playButton.addEventListener("click", startQS);
+            const bCtrls = document.getElementById('button-controls')
+            bCtrls.insertBefore(playButton, bCtrls.firstChild);
+            // } else {
+            //     document.getElementById("playButton").addEventListener("click", startQS);
+        }
+
+
+        if (document.getElementById("resetButton") === null) {
+            let resetButton = document.createElement("button");
+            resetButton.id = "resetButton";
+            resetButton.innerHTML = "RESET";
+            resetButton.addEventListener("click", reset);
+            const bCtrls = document.getElementById('button-controls')
+            bCtrls.appendChild(resetButton);
+        } else {
+            document.getElementById("playButton").addEventListener("click", reset);
+        }
     }
-
-    if (document.getElementById("playButton") === null) {
-        let playButton = document.createElement("button");
-        playButton.id = "playButton";
-        playButton.innerHTML = "PLAY";
-        playButton.addEventListener("click", startQS);
-        const bCtrls = document.getElementById('button-controls')
-        bCtrls.insertBefore(playButton, bCtrls.firstChild);
-    } else {
-        document.getElementById("playButton").addEventListener("click", startQS);
-    }
-    let speed = 7;
 
     function cycleSpeed() {
         if (speed > 100) speed = 20;
         else speed = 75;
     }
-    let sliceFactor = 16;
-    // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
-    while (sum < canvas.canvas.width - 5) {
-        let nextWidth = 0;
-        // if (canvas.canvas.width - sum < 255) nextWidth = canvas.canvas.width - sum;
-        // else 
-        nextWidth = Math.floor((Math.random() * 255));
-        let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
 
-        const newTri = new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist);
-        // console.log(xDist);
-        // newTri.draw(sum);
-        sum += (xDist * canvas.canvas.width);
-        myTri.push(newTri);
-        // console.log("sum", sum);
-        // console.log("width", canvas.canvas.width);
-        // console.log(newTri);
+    function reset() {
+        initializeButtons()
+        myTri = [];
+        let sum = 0;
+        // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
+        while (sum < canvas.canvas.width - 5) {
+            let nextWidth = 0;
+            // if (canvas.canvas.width - sum < 255) nextWidth = canvas.canvas.width - sum;
+            // else 
+            nextWidth = Math.floor((Math.random() * 255));
+            let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
+
+            const newTri = new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist);
+            // console.log(xDist);
+            // newTri.draw(sum);
+            sum += (xDist * canvas.canvas.width);
+            myTri.push(newTri);
+            // console.log("sum", sum);
+            // console.log("width", canvas.canvas.width);
+            // console.log(newTri);
+        }
     }
-
-    let animating = true; // turn off with play button, quiksort will control animations
 
     const animation = () => {
         let sum = 0;
