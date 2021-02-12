@@ -14,7 +14,6 @@ const canvas = new canvasExample();
 canvas.createCanvas();
 
 function myFunc() {
-    canvas.clearCanvas();
     let myTri = [];
     let animating = true;
     let speed = 5;
@@ -62,8 +61,6 @@ function myFunc() {
             resetButton.addEventListener("click", reset);
             const bCtrls = document.getElementById('button-controls')
             bCtrls.appendChild(resetButton);
-        } else {
-            document.getElementById("playButton").addEventListener("click", reset);
         }
     }
 
@@ -74,6 +71,8 @@ function myFunc() {
 
     function reset() {
         initializeButtons()
+        canvas.clearCanvas();
+        animating = true;
         myTri = [];
         let sum = 0;
         // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
