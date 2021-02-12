@@ -45,7 +45,7 @@ function myFunc() {
     } else {
         document.getElementById("playButton").addEventListener("click", startQS);
     }
-    let speed = 75;
+    let speed = 15;
 
     function cycleSpeed() {
         if (speed > 100) speed = 20;
@@ -55,10 +55,12 @@ function myFunc() {
     while (sum < canvas.canvas.width) {
         let nextWidth = 0;
         if (canvas.canvas.width - sum < 255) nextWidth = canvas.canvas.width - sum;
-        else nextWidth = Math.floor((Math.random() * 200) + 55);
+        else nextWidth = Math.floor((Math.random() * 100) + 155);
         let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
         const newTri = new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist);
-
+        if (xDist > 1) {
+            debugger;
+        }
         // newTri.draw(sum);
         sum += xDist * canvas.canvas.width;
         myTri.push(newTri);
@@ -98,18 +100,27 @@ function myFunc() {
         console.log(myTri.length);
         document.getElementById("playButton").remove();
         animating = false;
-        quickSort(myTri, 0, myTri.length - 1);
+        quickSort(myTri, 0, myTri.length - 1).then(() => {
+            console.log("quicksort finished")
+            animating = true;
+            window.requestAnimationFrame(animation);
+            document.getElementById("button-controls").remove();
+            console.log(myTri[1])
+        });
     }
 
     function quickSort(arr, start, end, xStart = 0) {
         // console.log("sorting");
         // needed to setup a strong resolve, need to come back to this , reason: for pausing animation
-        if (start < end) {
-            quickSortPartition(arr, start, end).then((pi) => {
-                quickSort(arr, start, pi - 1);
-                quickSort(arr, pi + 1, end);
-            });
-        }
+        return new Promise(resolve => {
+            if (start < end) {
+                quickSortPartition(arr, start, end).then((pi) => {
+                    resolve(quickSort(arr, start, pi - 1).then(() => (quickSort(arr, pi + 1, end))));
+                });
+            } else resolve()
+        })
+
+
     }
 
     function quickSortPartition(arr, start, end) {
@@ -126,7 +137,8 @@ function myFunc() {
                 setTimeout(function() {
                     i++;
                     if (i !== j) {
-                        // console.log("swap happened");
+                        console.log("swap happened");
+                        console.log("swapping", arr[i], arr[j]);
                         const temp = arr[i];
                         arr[i] = arr[j];
                         arr[j] = temp;

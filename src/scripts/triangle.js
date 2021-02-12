@@ -46,7 +46,7 @@ class Triangle {
         }
         ctx.fillStyle = fillColor;
         // pre production, line defaults to black
-        // ctx.strokeStyle = this.color;
+        ctx.strokeStyle = this.color;
         ctx.fill();
 
         ctx.stroke();
