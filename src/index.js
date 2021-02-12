@@ -45,22 +45,23 @@ function myFunc() {
     } else {
         document.getElementById("playButton").addEventListener("click", startQS);
     }
-    let speed = 15;
+    let speed = 7;
 
     function cycleSpeed() {
         if (speed > 100) speed = 20;
         else speed = 75;
     }
-    let sliceFactor = 5;
+    let sliceFactor = 16;
     // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
     while (sum < canvas.canvas.width - 5) {
         let nextWidth = 0;
-        if (canvas.canvas.width - sum < 255) nextWidth = canvas.canvas.width - sum;
-        else nextWidth = Math.floor((Math.random() * 255));
+        // if (canvas.canvas.width - sum < 255) nextWidth = canvas.canvas.width - sum;
+        // else 
+        nextWidth = Math.floor((Math.random() * 255));
         let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
 
         const newTri = new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist);
-        console.log(xDist);
+        // console.log(xDist);
         // newTri.draw(sum);
         sum += (xDist * canvas.canvas.width);
         myTri.push(newTri);
@@ -137,8 +138,8 @@ function myFunc() {
                 setTimeout(function() {
                     i++;
                     if (i !== j) {
-                        console.log("swap happened");
-                        console.log("swapping", arr[i], arr[j]);
+                        // console.log("swap happened");
+                        // console.log("swapping", arr[i], arr[j]);
                         const temp = arr[i];
                         arr[i] = arr[j];
                         arr[j] = temp;
