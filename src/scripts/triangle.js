@@ -4,6 +4,7 @@ class Triangle {
         this.ctx = this.canvas.ctx;
         this.xDist = xDist;
         this.color = color;
+        this.marked = false;
     }
 
     draw(xStart) {
@@ -38,13 +39,23 @@ class Triangle {
         ctx.lineTo(triangle.x3, triangle.y3);
         ctx.lineTo(triangle.x1, triangle.y1);
         ctx.closePath();
-        ctx.fillStyle = this.color;
+        let fillColor = this.color;
+        if (this.marked) {
+            fillColor = 'green';
+            this.marked = false;
+        }
+        ctx.fillStyle = fillColor;
         // pre production, line defaults to black
-        ctx.strokeStyle = this.color;
+        // ctx.strokeStyle = this.color;
         ctx.fill();
 
         ctx.stroke();
     }
+
+    mark() {
+        this.marked = true;
+    }
+
     reset() {
         try {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
