@@ -22,18 +22,15 @@ canvas {
 
 body {
     overflow-y: hidden;
-    /* Hide vertical scrollbar */
     overflow-x: hidden;
-    /* Hide horizontal scrollbar */
 }
 
-#top-bar {
+#top-bar-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
     width: auto;
     height: 7vh;
-    background-color: rgba(82, 70, 70, 0.575);
+    background-color: rgb(8, 76, 116);
     button.clickable:hover {
         opacity: 1;
         cursor: pointer;
@@ -45,16 +42,19 @@ body {
     }
 }
 
-button {
-    background-color: black;
-    color: white;
-    box-shadow: none;
-    border: 0;
-    height: 4vh;
-    width: 8vw;
-    min-width: 90px;
-    opacity: .5;
-    border: 1, blanchedalmond;
+#title {
+    color: black;
+    font-family: "Lucida Console";
+    align-self: center;
+}
+
+#algo-buttons {
+    position: relative;
+    align-self: center;
+}
+
+#links {
+    align-self: center;
 }
 
 :focus {
@@ -71,4 +71,26 @@ button {
         cursor: pointer;
         box-shadow: 0 12px 16px 0 rgba(114, 84, 84, 0.24), 0 17px 50px 0 rgba(238, 232, 232, 0.19);
     }
+}
+
+button {
+    background-color: black;
+    color: white;
+    box-shadow: none;
+    border: 0;
+    height: 4vh;
+    width: 8vw;
+    min-width: 90px;
+    opacity: .5;
+    transition: .5s;
+}
+
+#linkedin {
+    width: 2vw;
+    height: 2vw;
+}
+
+#github {
+    width: 2vw;
+    height: 2vw;
 }
