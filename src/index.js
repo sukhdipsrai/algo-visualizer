@@ -76,9 +76,9 @@ function myFunc() {
         let sum = 0;
         // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
         //TODO: rework kinks in this logic
-        while (sum < canvas.canvas.width - 2) {
+        while (sum < canvas.canvas.width - (255 / sliceFactor)) {
             let nextWidth = 0;
-            nextWidth = Math.floor((Math.random() * 255));
+            nextWidth = Math.floor((Math.random() * 254) + 1);
             let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
 
             const newTri = new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist);
@@ -90,10 +90,9 @@ function myFunc() {
             // console.log("width", canvas.canvas.width);
             // console.log(newTri);
         }
-
-        // let nextWidth = Math.floor(canvas.canvas.width - sum);
-        // let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
-        // myTri.push(new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist));
+        let nextWidth = Math.floor(canvas.canvas.width - sum);
+        let xDist = nextWidth / (canvas.canvas.width);
+        myTri.push(new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist));
     }
 
     const animation = () => {
@@ -170,7 +169,6 @@ function myFunc() {
                         const temp = arr[i];
                         arr[i] = arr[j];
                         arr[j] = temp;
-                        debugger;
                         arr[i].mark();
                         arr[j].mark();
                         window.requestAnimationFrame(animation);
