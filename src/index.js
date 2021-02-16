@@ -116,30 +116,40 @@ function myFunc() {
     }
 
 
-    function reset() {
-        initializeButtons()
-        canvas.clearCanvas();
-        animating = true;
-        myTri = [];
+    function initializeArr() {
         let sum = 0;
-        // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
+
+        // Divide canvas into slices of equal length
+        // Use linear color maping to Triangle.val
+        // Triangle.val will be sorted field
+        // xDist remains same
+
         while (sum < canvas.canvas.width - (255 / sliceFactor)) {
             let nextWidth = 0;
             nextWidth = Math.floor((Math.random() * 254) + 1);
             let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
 
             const newTri = new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist);
-            // console.log(xDist);
-            // newTri.draw(sum);
+
             sum += (xDist * canvas.canvas.width);
             myTri.push(newTri);
-            // console.log("sum", sum);
-            // console.log("width", canvas.canvas.width);
-            // console.log(newTri);
+
         }
         let nextWidth = Math.floor(canvas.canvas.width - sum) * sliceFactor;
         let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
         myTri.push(new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist));
+    }
+
+    function resetVars() {
+        canvas.clearCanvas();
+        animating = true;
+        myTri = [];
+    }
+
+    function reset() {
+        initializeButtons();
+        resetVars();
+        initializeArr();
     }
 
     const animation = () => {
