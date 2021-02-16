@@ -79,31 +79,26 @@ function myFunc() {
         let sliceButton = document.getElementById("sliceButton");
         switch (sliceFactor) {
             case 2:
-                debugger;
                 sliceFactor = 4;
                 reset();
                 sliceButton.innerHTML = "EVEN MORE TRIANGLES";
                 return;
             case 4:
-                debugger;
                 sliceFactor = 8;
                 reset();
                 sliceButton.innerHTML = "MORE TRIANGLES...";
                 return;
             case 8:
-                debugger;
                 sliceFactor = 12;
                 reset();
                 sliceButton.innerHTML = "I SAID MORE!";
                 return;
             case 12:
-                debugger;
                 sliceFactor = 20;
                 reset();
                 sliceButton.innerHTML = "MAYBE NOT?";
                 return;
             case 20:
-                debugger;
                 sliceFactor = 2;
                 reset();
                 sliceButton.innerHTML = "MORE TRIANGLES";
@@ -165,7 +160,7 @@ function myFunc() {
     }
 
     function startQS() {
-        console.log(myTri.length);
+        // console.log(myTri.length);
         document.getElementById("playButton").hidden = true;
         document.getElementById("forwardButton").hidden = true;
         document.getElementById("sliceButton").hidden = true;
@@ -176,7 +171,7 @@ function myFunc() {
         quickSort(myTri, 0, myTri.length - 1).then(() => {
             resetButton.disabled = false;
             resetButton.classList.remove("unclickable");
-            console.log(myTri);
+            // console.log(myTri);
         });
     }
 
@@ -299,7 +294,7 @@ function unregisterEventListeners() {
         ] = currentStateObj.currentEventListeners.pop();
         if (selector === "window") {
             window.removeEventListener(event, handler);
-            console.log(handler);
+            // console.log(handler);
         } else {
             document.querySelector(selector).removeEventListener(event, handler);
         }
