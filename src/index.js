@@ -16,7 +16,7 @@ canvas.createCanvas();
 function myFunc() {
     let myTri = [];
     let animating = true;
-    let speed = 100;
+    let speed = 50;
     let sliceFactor = 2; // increasing will create more triangle slices
 
     reset();
@@ -67,7 +67,7 @@ function myFunc() {
 
     function cycleSpeed() {
         if (speed == 5) {
-            speed = 100;
+            speed = 50;
             document.getElementById("forwardButton").innerHTML = "FASTER";
         } else {
             speed = 5;
@@ -119,14 +119,9 @@ function myFunc() {
         let xDist = 1 / (10 * sliceFactor);
         for (let i = 0; i < 10 * sliceFactor; i++) {
             // 0-255 random number
-            let val = Math.floor((Math.random() * 254) + 1);
+            let val = Math.floor(Math.random() * 254 + 1);
 
-            const newTri = new Triangle(
-                canvas,
-                blueRandomizer(val, 255),
-                xDist,
-                val
-            );
+            const newTri = new Triangle(canvas, blueRandomizer(val, 255), xDist, val);
 
             myTri.push(newTri);
         }
@@ -157,7 +152,7 @@ function myFunc() {
     };
 
     window.requestAnimationFrame(animation);
-
+    // window.setTimeout(window.requestAnimationFrame(animation), 18);
     // Logic preformed on G value, keeping R abd B constant
     function blueRandomizer(inputshade, maxVal) {
         let shadeVal = Math.ceil((inputshade / maxVal) * 255);
@@ -165,7 +160,6 @@ function myFunc() {
         let rValue = "3C"; //60
         let gValue = shadeVal.toString(16);
         if (shadeVal < 16) gValue = "0" + gValue;
-
 
         return `#${rValue + gValue}ff`;
     }
@@ -178,7 +172,7 @@ function myFunc() {
         let resetButton = document.getElementById("resetButton");
         resetButton.disabled = true;
         resetButton.classList.add("unclickable");
-        animating = false;
+        // animating = false;
         quickSort(myTri, 0, myTri.length - 1).then(() => {
             animating = true;
             window.requestAnimationFrame(animation);
@@ -208,6 +202,7 @@ function myFunc() {
             let pivot = arr[end].val;
             let i = start - 1; // tracking pivot location
             let j = start - 1;
+            let timeBuffer = 0;
             while (j < end) {
                 j++;
                 if (arr[j].val <= pivot) swapAndRender(j);
@@ -224,11 +219,11 @@ function myFunc() {
                         arr[j] = temp;
                         arr[i].mark();
                         arr[j].mark();
-                        window.requestAnimationFrame(animation);
+                        // window.requestAnimationFrame(animation);
                     }
 
                     if (j === end) resolve(i);
-                }, speed * j);
+                }, j * speed);
             }
         });
     }
