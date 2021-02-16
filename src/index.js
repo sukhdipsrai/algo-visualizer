@@ -161,7 +161,7 @@ function myFunc() {
         let shadeVal = Math.ceil((inputshade / maxVal) * 255);
 
         if (shadeVal < 10) shadeVal = "0" + shadeVal;
-        let rValue = "3C";
+        let rValue = "3C"; //60
         let gValue = shadeVal.toString(16);
 
         return `#${rValue + gValue}ff`;
