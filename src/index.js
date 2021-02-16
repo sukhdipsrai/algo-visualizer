@@ -16,7 +16,7 @@ canvas.createCanvas();
 function myFunc() {
     let myTri = [];
     let animating = true;
-    let speed = 100;
+    let speed = 50;
     let sliceFactor = 2; // increasing will create more triangle slices
 
     reset();
@@ -37,109 +37,101 @@ function myFunc() {
                 .addEventListener("click", cycleSpeed);
         } else document.getElementById("playButton").hidden = false;
 
-
         if (document.getElementById("playButton") === null) {
             let playButton = document.createElement("button");
             playButton.id = "playButton";
             playButton.innerHTML = "PLAY";
             playButton.addEventListener("click", startQS);
-            const bCtrls = document.getElementById('button-controls')
+            const bCtrls = document.getElementById("button-controls");
             bCtrls.insertBefore(playButton, bCtrls.firstChild);
         } else document.getElementById("forwardButton").hidden = false;
 
-
         if (document.getElementById("sliceButton") === null) {
             let sliceButton = document.createElement("button");
-            sliceButton.id = 'sliceButton';
+            sliceButton.id = "sliceButton";
             sliceButton.innerHTML = "MORE TRIANGLES";
-            sliceButton.addEventListener("click", cycleSlice)
-            const bCtrls = document.getElementById('button-controls')
-            bCtrls.insertBefore(sliceButton, document.getElementById("resetButton"))
-        } else document.getElementById('sliceButton').hidden = false;
-
+            sliceButton.addEventListener("click", cycleSlice);
+            const bCtrls = document.getElementById("button-controls");
+            bCtrls.insertBefore(sliceButton, document.getElementById("resetButton"));
+        } else document.getElementById("sliceButton").hidden = false;
 
         if (document.getElementById("resetButton") === null) {
             let resetButton = document.createElement("button");
             resetButton.id = "resetButton";
             resetButton.innerHTML = "RESET";
             resetButton.addEventListener("click", reset);
-            const bCtrls = document.getElementById('button-controls')
+            const bCtrls = document.getElementById("button-controls");
             bCtrls.appendChild(resetButton);
         }
     }
 
     function cycleSpeed() {
         if (speed == 5) {
-            speed = 100;
-            document.getElementById('forwardButton').innerHTML = "FASTER";
+            speed = 50;
+            document.getElementById("forwardButton").innerHTML = "FASTER";
         } else {
             speed = 5;
-            document.getElementById('forwardButton').innerHTML = "SLOWER";
-
+            document.getElementById("forwardButton").innerHTML = "SLOWER";
         }
     }
 
     function cycleSlice() {
-        let sliceButton = document.getElementById('sliceButton');
+        let sliceButton = document.getElementById("sliceButton");
         switch (sliceFactor) {
             case 2:
-                debugger;
                 sliceFactor = 4;
                 reset();
-                sliceButton.innerHTML = ("EVEN MORE TRIANGLES");
+                sliceButton.innerHTML = "EVEN MORE TRIANGLES";
                 return;
             case 4:
-                debugger;
                 sliceFactor = 8;
                 reset();
-                sliceButton.innerHTML = ("MORE TRIANGLES...");
+                sliceButton.innerHTML = "MORE TRIANGLES...";
                 return;
             case 8:
-                debugger;
                 sliceFactor = 12;
                 reset();
-                sliceButton.innerHTML = ("I SAID MORE!");
+                sliceButton.innerHTML = "I SAID MORE!";
                 return;
             case 12:
-                debugger;
                 sliceFactor = 20;
                 reset();
-                sliceButton.innerHTML = ("MAYBE NOT?");
+                sliceButton.innerHTML = "MAYBE NOT?";
                 return;
             case 20:
-                debugger;
                 sliceFactor = 2;
                 reset();
-                sliceButton.innerHTML = ("MORE TRIANGLES");
+                sliceButton.innerHTML = "MORE TRIANGLES";
                 return;
         }
     }
 
+    function initializeArr() {
+        // Divide canvas into slices of equal length
+        // Use linear color maping to Triangle.val
+        // Triangle.val will be sorted field
+        // xDist remains same
+        let xDist = 1 / (10 * sliceFactor);
+        for (let i = 0; i < 10 * sliceFactor; i++) {
+            // 0-255 random number
+            let val = Math.floor(Math.random() * 254 + 1);
 
-    function reset() {
-        initializeButtons()
+            const newTri = new Triangle(canvas, blueRandomizer(val, 255), xDist, val);
+
+            myTri.push(newTri);
+        }
+    }
+
+    function resetVars() {
         canvas.clearCanvas();
         animating = true;
         myTri = [];
-        let sum = 0;
-        // pixel math failure, should try to consume every pixel of canvas, cause small artifact bug
-        while (sum < canvas.canvas.width - (255 / sliceFactor)) {
-            let nextWidth = 0;
-            nextWidth = Math.floor((Math.random() * 254) + 1);
-            let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
+    }
 
-            const newTri = new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist);
-            // console.log(xDist);
-            // newTri.draw(sum);
-            sum += (xDist * canvas.canvas.width);
-            myTri.push(newTri);
-            // console.log("sum", sum);
-            // console.log("width", canvas.canvas.width);
-            // console.log(newTri);
-        }
-        let nextWidth = Math.floor(canvas.canvas.width - sum) * sliceFactor;
-        let xDist = nextWidth / (sliceFactor * canvas.canvas.width);
-        myTri.push(new Triangle(canvas, blueRandomizer(nextWidth, 255), xDist));
+    function reset() {
+        initializeButtons();
+        resetVars();
+        initializeArr();
     }
 
     const animation = () => {
@@ -155,56 +147,58 @@ function myFunc() {
     };
 
     window.requestAnimationFrame(animation);
-
+    // window.setTimeout(window.requestAnimationFrame(animation), 18);
     // Logic preformed on G value, keeping R abd B constant
     function blueRandomizer(inputshade, maxVal) {
         let shadeVal = Math.ceil((inputshade / maxVal) * 255);
 
-        if (shadeVal < 10) shadeVal = "0" + shadeVal;
-        let rValue = "3C";
+        let rValue = "3C"; //60
         let gValue = shadeVal.toString(16);
+        if (shadeVal < 16) gValue = "0" + gValue;
 
         return `#${rValue + gValue}ff`;
     }
 
     function startQS() {
-        console.log(myTri.length);
+        // console.log(myTri.length);
         document.getElementById("playButton").hidden = true;
         document.getElementById("forwardButton").hidden = true;
-        document.getElementById('sliceButton').hidden = true;
+        document.getElementById("sliceButton").hidden = true;
         let resetButton = document.getElementById("resetButton");
         resetButton.disabled = true;
-        resetButton.classList.add('unclickable');
-        animating = false;
+        resetButton.classList.add("unclickable");
+        // animating = false;
         quickSort(myTri, 0, myTri.length - 1).then(() => {
-            animating = true;
-            window.requestAnimationFrame(animation);
             resetButton.disabled = false;
-            resetButton.classList.remove('unclickable');
+            resetButton.classList.remove("unclickable");
+            // console.log(myTri);
         });
     }
 
     function quickSort(arr, start, end, xStart = 0) {
         // needed to setup a strong resolve, need to come back to this , reason: for pausing animation
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             if (start < end) {
                 quickSortPartition(arr, start, end).then((pi) => {
-                    resolve(quickSort(arr, start, pi - 1).then(() => (quickSort(arr, pi + 1, end))));
+                    resolve(
+                        quickSort(arr, start, pi - 1).then(() =>
+                            quickSort(arr, pi + 1, end)
+                        )
+                    );
                 });
-            } else resolve()
-        })
-
-
+            } else resolve();
+        });
     }
 
     function quickSortPartition(arr, start, end) {
         return new Promise(function(resolve, reject) {
-            let pivot = arr[end].xDist;
+            let pivot = arr[end].val;
             let i = start - 1; // tracking pivot location
             let j = start - 1;
+            let timeBuffer = 0;
             while (j < end) {
                 j++;
-                if (arr[j].xDist <= pivot) swapAndRender(j);
+                if (arr[j].val <= pivot) swapAndRender(j);
             }
 
             function swapAndRender(j) {
@@ -218,11 +212,11 @@ function myFunc() {
                         arr[j] = temp;
                         arr[i].mark();
                         arr[j].mark();
-                        window.requestAnimationFrame(animation);
+                        // window.requestAnimationFrame(animation);
                     }
 
                     if (j === end) resolve(i);
-                }, speed * j);
+                }, j * speed);
             }
         });
     }
@@ -300,7 +294,7 @@ function unregisterEventListeners() {
         ] = currentStateObj.currentEventListeners.pop();
         if (selector === "window") {
             window.removeEventListener(event, handler);
-            console.log(handler);
+            // console.log(handler);
         } else {
             document.querySelector(selector).removeEventListener(event, handler);
         }

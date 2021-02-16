@@ -1,10 +1,11 @@
 class Triangle {
-    constructor(canvas, color, xDist) {
+    constructor(canvas, color, xDist, val) {
         this.canvas = canvas;
         this.ctx = this.canvas.ctx;
         this.xDist = xDist;
         this.color = color;
         this.marked = false;
+        this.val = val;
     }
 
     draw(xStart) {
@@ -39,12 +40,13 @@ class Triangle {
         ctx.lineTo(triangle.x3, triangle.y3);
         ctx.lineTo(triangle.x1, triangle.y1);
         ctx.closePath();
-        let fillColor = this.color;
+
         if (this.marked) {
-            fillColor = 'green';
+            ctx.fillStyle = "red";
             this.marked = false;
+        } else {
+            ctx.fillStyle = this.color;
         }
-        ctx.fillStyle = fillColor;
         // pre production, line defaults to black
         ctx.strokeStyle = this.color;
         ctx.fill();

@@ -26,11 +26,11 @@ body {
 }
 
 #top-bar-container {
+    justify-content: space-evenly;
     display: flex;
-    justify-content: space-between;
     width: auto;
     height: 7vh;
-    background-color: rgb(8, 76, 116);
+    background-color: rgb(60, 255, 255);
     button.clickable:hover {
         opacity: 1;
         cursor: pointer;
@@ -45,16 +45,40 @@ body {
 #title {
     color: black;
     font-family: "Lucida Console";
+    position: absolute;
+    left: 0;
     align-self: center;
+    margin-left: 1vw;
+    h3 {
+        font-size: 100%;
+    }
+    h1 {
+        font-size: 200%;
+    }
 }
 
 #algo-buttons {
-    position: relative;
     align-self: center;
 }
 
 #links {
+    display: flex;
+    position: absolute;
+    right: 1vw;
     align-self: center;
+    #linkedin {
+        width: 2vw;
+        height: 2vw;
+        margin-right: 1vw;
+        min-width: 25px;
+        min-height: 25px;
+    }
+    #github {
+        width: 2vw;
+        height: 2vw;
+        min-width: 25px;
+        min-height: 25px;
+    }
 }
 
 :focus {
@@ -83,14 +107,4 @@ button {
     min-width: 90px;
     opacity: .5;
     transition: .5s;
-}
-
-#linkedin {
-    width: 2vw;
-    height: 2vw;
-}
-
-#github {
-    width: 2vw;
-    height: 2vw;
 }
