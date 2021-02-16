@@ -48,6 +48,13 @@ body {
     position: absolute;
     left: 0;
     align-self: center;
+    margin-left: 1vw;
+    h3 {
+        font-size: 100%;
+    }
+    h1 {
+        font-size: 200%;
+    }
 }
 
 #algo-buttons {
@@ -62,10 +69,15 @@ body {
     #linkedin {
         width: 2vw;
         height: 2vw;
+        margin-right: 1vw;
+        min-width: 25px;
+        min-height: 25px;
     }
     #github {
         width: 2vw;
         height: 2vw;
+        min-width: 25px;
+        min-height: 25px;
     }
 }
 

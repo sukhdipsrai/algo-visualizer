@@ -172,10 +172,7 @@ function myFunc() {
         let resetButton = document.getElementById("resetButton");
         resetButton.disabled = true;
         resetButton.classList.add("unclickable");
-        // animating = false;
         quickSort(myTri, 0, myTri.length - 1).then(() => {
-            animating = true;
-            window.requestAnimationFrame(animation);
             resetButton.disabled = false;
             resetButton.classList.remove("unclickable");
             console.log(myTri);
