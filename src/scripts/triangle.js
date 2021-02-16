@@ -42,7 +42,7 @@ class Triangle {
         ctx.closePath();
         let fillColor = this.color;
         if (this.marked) {
-            fillColor = 'green';
+            fillColor = 'red';
             this.marked = false;
         }
         ctx.fillStyle = fillColor;
