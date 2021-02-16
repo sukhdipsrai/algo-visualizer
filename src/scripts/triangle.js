@@ -1,10 +1,11 @@
 class Triangle {
-    constructor(canvas, color, xDist) {
+    constructor(canvas, color, xDist, val) {
         this.canvas = canvas;
         this.ctx = this.canvas.ctx;
         this.xDist = xDist;
         this.color = color;
         this.marked = false;
+        this.val = val;
     }
 
     draw(xStart) {
