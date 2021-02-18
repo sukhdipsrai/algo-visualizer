@@ -66,11 +66,11 @@ function myFunc() {
   }
 
   function cycleSpeed() {
-    if (speed == 16) {
+    if (speed == 5) {
       speed = 32;
       document.getElementById("forwardButton").innerHTML = "FASTER";
     } else {
-      speed = 16;
+      speed = 5;
       document.getElementById("forwardButton").innerHTML = "SLOWER";
     }
   }
@@ -204,7 +204,6 @@ function myFunc() {
       function swapAndRender(j) {
         setTimeout(function () {
           i++;
-
           // console.log("swap happened");
           // console.log("swapping", arr[i], arr[j]);
           const temp = arr[i];
@@ -212,13 +211,9 @@ function myFunc() {
           arr[j] = temp;
           arr[i].mark();
           arr[j].mark();
+          if (j === end) resolve(i);
           // window.requestAnimationFrame(animation);
         }, j * speed);
-        setTimeout(() => {
-          arr[i].unmark();
-          arr[j].unmark();
-          if (j === end) resolve(i);
-        }, (j + 1) * speed);
       }
     });
   }

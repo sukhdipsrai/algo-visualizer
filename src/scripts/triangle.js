@@ -53,9 +53,9 @@ class Triangle {
 
   mark() {
     this.marked = true;
-  }
-  unmark() {
-    this.marked = false;
+    setTimeout(() => {
+      this.marked = false;
+    }, 1000);
   }
 
   reset() {
