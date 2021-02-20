@@ -9,6 +9,8 @@ const currentStateObj = {
   currentEventListeners: [],
 };
 
+let sortSelect = "1";
+
 document.querySelector("#quick-sort").addEventListener("click", myFunc);
 const canvas = new canvasExample();
 canvas.createCanvas();
@@ -18,6 +20,22 @@ function myFunc() {
   let animating = true;
   let speed = 60;
   let sliceFactor = 2; // increasing will create more triangle slices
+
+  // myFunc is the main function that runs all sorts, buttons are abstracted outside of the function scope
+  // possible to instanstiate myFunc as a class but there is too much DOM functionality that would be un-class like to do
+  // switch (sortSelect) {
+  //   case "1":
+  //   // quikcsort, define start() accordingly
+  //   case "2":
+  //   // some other sort, define start() accordingly
+  //   case "3":
+  //   //some other sort, define start() accordingly
+  //   case "4":
+  //   //some other sort, define start() accordingly
+
+  //   default:
+  //     "1";
+  // }
 
   reset();
 
