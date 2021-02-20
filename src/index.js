@@ -23,19 +23,19 @@ function myFunc() {
 
   // myFunc is the main function that runs all sorts, buttons are abstracted outside of the function scope
   // possible to instanstiate myFunc as a class but there is too much DOM functionality that would be un-class like to do
-  switch (sortSelect) {
-    case "1":
-    // quikcsort, define start() accordingly
-    case "2":
-    // some other sort, define start() accordingly
-    case "3":
-    //some other sort, define start() accordingly
-    case "4":
-    //some other sort, define start() accordingly
+  // switch (sortSelect) {
+  //   case "1":
+  //   // quikcsort, define start() accordingly
+  //   case "2":
+  //   // some other sort, define start() accordingly
+  //   case "3":
+  //   //some other sort, define start() accordingly
+  //   case "4":
+  //   //some other sort, define start() accordingly
 
-    default:
-      "1";
-  }
+  //   default:
+  //     "1";
+  // }
 
   reset();
 
