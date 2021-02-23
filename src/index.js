@@ -255,27 +255,25 @@ function myFunc() {
       arr[end].markStatic();
 
       const swapAndRender = (j) => {
-        if (i >= 0 && j >= 0) {
-          arr[i].mark1();
-          arr[j].mark2();
-        }
-
         if (arr[j].val <= pivot) {
           i++;
           if (j === end) {
-            debugger;
-            arr[end].markStatic();
+            arr[end].static = false;
           }
           const temp = arr[i];
           arr[i] = arr[j];
           arr[j] = temp;
+          arr[i].mark1();
+          arr[j].mark2();
           if (j === end) {
             resolve(i);
           }
-        }
+        } else arr[j].mark2();
       };
       const timedWhileLoop = () => {
         setTimeout(() => {
+          arr[end].markStatic();
+
           if (j < end) {
             j++;
             swapAndRender(j);
