@@ -18,7 +18,7 @@ canvas.createCanvas();
 function myFunc() {
   let myTri = [];
   let animating = true;
-  let speed = 60;
+  let speed = { value: 50 };
   let sliceFactor = 2; // increasing will create more triangle slices
 
   // myFunc is the main function that runs all sorts, buttons are abstracted outside of the function scope
@@ -84,11 +84,11 @@ function myFunc() {
   }
 
   function cycleSpeed() {
-    if (speed == 5) {
-      speed = 32;
+    if (speed.value == 5) {
+      speed.value = 50;
       document.getElementById("forwardButton").innerHTML = "FASTER";
     } else {
-      speed = 5;
+      speed.value = 5;
       document.getElementById("forwardButton").innerHTML = "SLOWER";
     }
   }
@@ -134,7 +134,13 @@ function myFunc() {
       // 0-255 random number
       let val = Math.floor(Math.random() * 254 + 1);
 
-      const newTri = new Triangle(canvas, blueRandomizer(val, 255), xDist, val);
+      const newTri = new Triangle(
+        canvas,
+        blueRandomizer(val, 255),
+        xDist,
+        val,
+        speed
+      );
 
       myTri.push(newTri);
     }
@@ -197,7 +203,7 @@ function myFunc() {
     // needed to setup a strong resolve, need to come back to this , reason: for pausing animation
     return new Promise((resolve) => {
       if (start < end) {
-        quickSortPartition(arr, start, end).then((pi) => {
+        quickSortPartition2(arr, start, end).then((pi) => {
           resolve(
             quickSort(arr, start, pi - 1).then(() =>
               quickSort(arr, pi + 1, end)
@@ -231,7 +237,44 @@ function myFunc() {
           arr[j].mark();
           if (j === end) resolve(i);
           // window.requestAnimationFrame(animation);
-        }, j * speed);
+        }, j * speed.value);
+      }
+    });
+  }
+  function quickSortPartition2(arr, start, end) {
+    return new Promise(function (resolve, reject) {
+      let pivot = arr[end].val;
+      let i = start - 1; // tracking pivot location
+      let j = start - 1;
+      // while (j < end) {
+      //   j++;
+      //   if (arr[j].val <= pivot) swapAndRender(j);
+      // }
+
+      function swapAndRender(j) {
+        i++;
+        // console.log("swap happened");
+        // console.log("swapping", arr[i], arr[j]);
+        const temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+        arr[i].mark1();
+        arr[j].mark2();
+        if (j === end) {
+          arr[end].markStatic();
+          resolve(i);
+        }
+      }
+      arr[end].markStatic();
+      timedWhileLoop();
+      function timedWhileLoop() {
+        setTimeout(() => {
+          if (j < end) {
+            j++;
+            if (arr[j].val <= pivot) swapAndRender(j);
+            timedWhileLoop();
+          }
+        }, speed.value);
       }
     });
   }
