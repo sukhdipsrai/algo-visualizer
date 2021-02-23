@@ -18,8 +18,8 @@ canvas.createCanvas();
 function myFunc() {
   let myTri = [];
   let animating = true;
-  let speed = 60;
-  let sliceFactor = 2; // increasing will create more triangle slices
+  let speed = { value: 5 };
+  let sliceFactor = 8; // increasing will create more triangle slices
 
   // myFunc is the main function that runs all sorts, buttons are abstracted outside of the function scope
   // possible to instanstiate myFunc as a class but there is too much DOM functionality that would be un-class like to do
@@ -48,7 +48,7 @@ function myFunc() {
     if (document.getElementById("forwardButton") === null) {
       let forwardButton = document.createElement("button");
       forwardButton.id = "forwardButton";
-      forwardButton.innerHTML = "FASTER";
+      forwardButton.innerHTML = "SLOWER";
       document.getElementById("button-controls").appendChild(forwardButton);
       document
         .getElementById("forwardButton")
@@ -84,11 +84,11 @@ function myFunc() {
   }
 
   function cycleSpeed() {
-    if (speed == 5) {
-      speed = 32;
+    if (speed.value == 5) {
+      speed.value = 50;
       document.getElementById("forwardButton").innerHTML = "FASTER";
     } else {
-      speed = 5;
+      speed.value = 5;
       document.getElementById("forwardButton").innerHTML = "SLOWER";
     }
   }
@@ -96,28 +96,28 @@ function myFunc() {
   function cycleSlice() {
     let sliceButton = document.getElementById("sliceButton");
     switch (sliceFactor) {
-      case 2:
-        sliceFactor = 4;
+      case 8:
+        sliceFactor = 14;
         reset();
         sliceButton.innerHTML = "EVEN MORE TRIANGLES";
         return;
-      case 4:
-        sliceFactor = 8;
+      case 14:
+        sliceFactor = 20;
         reset();
         sliceButton.innerHTML = "MORE TRIANGLES...";
         return;
-      case 8:
-        sliceFactor = 12;
+      case 20:
+        sliceFactor = 28;
         reset();
         sliceButton.innerHTML = "I SAID MORE!";
         return;
-      case 12:
-        sliceFactor = 20;
+      case 28:
+        sliceFactor = 40;
         reset();
         sliceButton.innerHTML = "MAYBE NOT?";
         return;
-      case 20:
-        sliceFactor = 2;
+      case 40:
+        sliceFactor = 8;
         reset();
         sliceButton.innerHTML = "MORE TRIANGLES";
         return;
@@ -134,7 +134,13 @@ function myFunc() {
       // 0-255 random number
       let val = Math.floor(Math.random() * 254 + 1);
 
-      const newTri = new Triangle(canvas, blueRandomizer(val, 255), xDist, val);
+      const newTri = new Triangle(
+        canvas,
+        blueRandomizer(val, 255),
+        xDist,
+        val,
+        speed
+      );
 
       myTri.push(newTri);
     }
@@ -177,19 +183,24 @@ function myFunc() {
     return `#${rValue + gValue}ff`;
   }
 
-  function startQS() {
-    // console.log(myTri.length);
+  function hideButtons() {
     document.getElementById("playButton").hidden = true;
     document.getElementById("forwardButton").hidden = true;
     document.getElementById("sliceButton").hidden = true;
     let resetButton = document.getElementById("resetButton");
     resetButton.disabled = true;
     resetButton.classList.add("unclickable");
-    // animating = false;
+  }
+
+  function enableButtons() {
+    resetButton.disabled = false;
+    resetButton.classList.remove("unclickable");
+  }
+
+  function startQS() {
+    hideButtons();
     quickSort(myTri, 0, myTri.length - 1).then(() => {
-      resetButton.disabled = false;
-      resetButton.classList.remove("unclickable");
-      // console.log(myTri);
+      enableButtons();
     });
   }
 
@@ -197,7 +208,7 @@ function myFunc() {
     // needed to setup a strong resolve, need to come back to this , reason: for pausing animation
     return new Promise((resolve) => {
       if (start < end) {
-        quickSortPartition(arr, start, end).then((pi) => {
+        quickSortPartition2(arr, start, end).then((pi) => {
           resolve(
             quickSort(arr, start, pi - 1).then(() =>
               quickSort(arr, pi + 1, end)
@@ -231,8 +242,40 @@ function myFunc() {
           arr[j].mark();
           if (j === end) resolve(i);
           // window.requestAnimationFrame(animation);
-        }, j * speed);
+        }, j * speed.value);
       }
+    });
+  }
+
+  function quickSortPartition2(arr, start, end) {
+    return new Promise(function (resolve, reject) {
+      let pivot = arr[end].val;
+      let i = start - 1; // tracking pivot location
+      let j = start - 1;
+      arr[end].markStatic();
+
+      function swapAndRender(j) {
+        i++;
+        if (j === end) {
+          arr[end].markStatic();
+          resolve(i);
+        }
+        const temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+        arr[i].mark1();
+        arr[j].mark2();
+      }
+      const timedWhileLoop = () => {
+        setTimeout(() => {
+          if (j < end) {
+            j++;
+            if (arr[j].val <= pivot) swapAndRender(j);
+            timedWhileLoop();
+          }
+        }, speed.value);
+      };
+      timedWhileLoop();
     });
   }
 } // entire block

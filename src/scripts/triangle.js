@@ -1,11 +1,14 @@
 class Triangle {
-  constructor(canvas, color, xDist, val) {
+  constructor(canvas, color, xDist, val, speed) {
     this.canvas = canvas;
     this.ctx = this.canvas.ctx;
     this.xDist = xDist;
     this.color = color;
+    this.DEFAULT_COLOR = color;
     this.marked = false;
     this.val = val;
+    this.speed = speed;
+    this.static = false;
   }
 
   draw(xStart) {
@@ -39,23 +42,39 @@ class Triangle {
     ctx.lineTo(triangle.x1, triangle.y1);
     ctx.closePath();
 
-    if (this.marked) {
-      ctx.fillStyle = "red";
-    } else {
-      ctx.fillStyle = this.color;
-    }
-    // pre production, line defaults to black
+    ctx.fillStyle = this.color;
     ctx.strokeStyle = this.color;
     ctx.fill();
 
     ctx.stroke();
   }
 
-  mark() {
-    this.marked = true;
-    setTimeout(() => {
-      this.marked = false;
-    }, 1000);
+  mark1() {
+    if (!this.static) {
+      this.color = "#FFD700";
+      setTimeout(() => {
+        this.color = this.DEFAULT_COLOR;
+      }, this.speed.value * 1.5);
+    }
+  }
+
+  mark2() {
+    if (!this.static) {
+      this.color = "#FFD700";
+      setTimeout(() => {
+        this.color = this.DEFAULT_COLOR;
+      }, this.speed.value * 1.5);
+    }
+  }
+
+  markStatic() {
+    const pivotColor = "#ff00ff";
+    this.static = !this.static;
+    if (this.color === pivotColor) {
+      this.color = this.DEFAULT_COLOR;
+    } else {
+      this.color = pivotColor;
+    }
   }
 
   reset() {
