@@ -68,12 +68,14 @@ class Triangle {
   }
 
   markStatic() {
-    const pivotColor = "#ff00ff";
-    this.static = !this.static;
-    if (this.color === pivotColor) {
+    let str = "ff00ff";
+
+    if (this.color === str) {
       this.color = this.DEFAULT_COLOR;
+      this.static = false;
     } else {
-      this.color = pivotColor;
+      this.color = str;
+      this.static = true;
     }
   }
 

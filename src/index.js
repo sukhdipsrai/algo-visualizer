@@ -254,23 +254,31 @@ function myFunc() {
       let j = start - 1;
       arr[end].markStatic();
 
-      function swapAndRender(j) {
-        i++;
-        if (j === end) {
-          arr[end].markStatic();
-          resolve(i);
+      const swapAndRender = (j) => {
+        if (i >= 0 && j >= 0) {
+          arr[i].mark1();
+          arr[j].mark2();
         }
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-        arr[i].mark1();
-        arr[j].mark2();
-      }
+
+        if (arr[j].val <= pivot) {
+          i++;
+          if (j === end) {
+            debugger;
+            arr[end].markStatic();
+          }
+          const temp = arr[i];
+          arr[i] = arr[j];
+          arr[j] = temp;
+          if (j === end) {
+            resolve(i);
+          }
+        }
+      };
       const timedWhileLoop = () => {
         setTimeout(() => {
           if (j < end) {
             j++;
-            if (arr[j].val <= pivot) swapAndRender(j);
+            swapAndRender(j);
             timedWhileLoop();
           }
         }, speed.value);
