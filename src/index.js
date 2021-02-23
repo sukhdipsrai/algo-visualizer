@@ -18,8 +18,8 @@ canvas.createCanvas();
 function myFunc() {
   let myTri = [];
   let animating = true;
-  let speed = { value: 50 };
-  let sliceFactor = 2; // increasing will create more triangle slices
+  let speed = { value: 5 };
+  let sliceFactor = 8; // increasing will create more triangle slices
 
   // myFunc is the main function that runs all sorts, buttons are abstracted outside of the function scope
   // possible to instanstiate myFunc as a class but there is too much DOM functionality that would be un-class like to do
@@ -48,7 +48,7 @@ function myFunc() {
     if (document.getElementById("forwardButton") === null) {
       let forwardButton = document.createElement("button");
       forwardButton.id = "forwardButton";
-      forwardButton.innerHTML = "FASTER";
+      forwardButton.innerHTML = "SLOWER";
       document.getElementById("button-controls").appendChild(forwardButton);
       document
         .getElementById("forwardButton")
@@ -96,28 +96,28 @@ function myFunc() {
   function cycleSlice() {
     let sliceButton = document.getElementById("sliceButton");
     switch (sliceFactor) {
-      case 2:
-        sliceFactor = 4;
+      case 8:
+        sliceFactor = 14;
         reset();
         sliceButton.innerHTML = "EVEN MORE TRIANGLES";
         return;
-      case 4:
-        sliceFactor = 8;
+      case 14:
+        sliceFactor = 20;
         reset();
         sliceButton.innerHTML = "MORE TRIANGLES...";
         return;
-      case 8:
-        sliceFactor = 12;
+      case 20:
+        sliceFactor = 28;
         reset();
         sliceButton.innerHTML = "I SAID MORE!";
         return;
-      case 12:
-        sliceFactor = 20;
+      case 28:
+        sliceFactor = 50;
         reset();
         sliceButton.innerHTML = "MAYBE NOT?";
         return;
-      case 20:
-        sliceFactor = 2;
+      case 50:
+        sliceFactor = 8;
         reset();
         sliceButton.innerHTML = "MORE TRIANGLES";
         return;
@@ -246,15 +246,10 @@ function myFunc() {
       let pivot = arr[end].val;
       let i = start - 1; // tracking pivot location
       let j = start - 1;
-      // while (j < end) {
-      //   j++;
-      //   if (arr[j].val <= pivot) swapAndRender(j);
-      // }
 
       function swapAndRender(j) {
         i++;
-        // console.log("swap happened");
-        // console.log("swapping", arr[i], arr[j]);
+
         const temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
