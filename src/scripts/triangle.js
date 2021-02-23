@@ -8,6 +8,7 @@ class Triangle {
     this.marked = false;
     this.val = val;
     this.speed = speed;
+    this.static = false;
   }
 
   draw(xStart) {
@@ -49,23 +50,31 @@ class Triangle {
   }
 
   mark1() {
-    this.color = "#FFD700";
-    setTimeout(() => {
-      this.color = this.DEFAULT_COLOR;
-    }, this.speed.value * 1.5);
+    if (!this.static) {
+      this.color = "#FFD700";
+      setTimeout(() => {
+        this.color = this.DEFAULT_COLOR;
+      }, this.speed.value * 1.5);
+    }
   }
 
   mark2() {
-    this.color = "#FFD700";
-    setTimeout(() => {
-      this.color = this.DEFAULT_COLOR;
-    }, this.speed.value * 1.5);
+    if (!this.static) {
+      this.color = "#FFD700";
+      setTimeout(() => {
+        this.color = this.DEFAULT_COLOR;
+      }, this.speed.value * 1.5);
+    }
   }
 
   markStatic() {
     const pivotColor = "#ff00ff";
-    if (this.color === pivotColor) this.color = this.DEFAULT_COLOR;
-    else this.color = pivotColor;
+    this.static = !this.static;
+    if (this.color === pivotColor) {
+      this.color = this.DEFAULT_COLOR;
+    } else {
+      this.color = pivotColor;
+    }
   }
 
   reset() {

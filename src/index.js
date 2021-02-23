@@ -112,11 +112,11 @@ function myFunc() {
         sliceButton.innerHTML = "I SAID MORE!";
         return;
       case 28:
-        sliceFactor = 50;
+        sliceFactor = 40;
         reset();
         sliceButton.innerHTML = "MAYBE NOT?";
         return;
-      case 50:
+      case 40:
         sliceFactor = 8;
         reset();
         sliceButton.innerHTML = "MORE TRIANGLES";
@@ -183,19 +183,24 @@ function myFunc() {
     return `#${rValue + gValue}ff`;
   }
 
-  function startQS() {
-    // console.log(myTri.length);
+  function hideButtons() {
     document.getElementById("playButton").hidden = true;
     document.getElementById("forwardButton").hidden = true;
     document.getElementById("sliceButton").hidden = true;
     let resetButton = document.getElementById("resetButton");
     resetButton.disabled = true;
     resetButton.classList.add("unclickable");
-    // animating = false;
+  }
+
+  function enableButtons() {
+    resetButton.disabled = false;
+    resetButton.classList.remove("unclickable");
+  }
+
+  function startQS() {
+    hideButtons();
     quickSort(myTri, 0, myTri.length - 1).then(() => {
-      resetButton.disabled = false;
-      resetButton.classList.remove("unclickable");
-      // console.log(myTri);
+      enableButtons();
     });
   }
 
@@ -241,28 +246,27 @@ function myFunc() {
       }
     });
   }
+
   function quickSortPartition2(arr, start, end) {
     return new Promise(function (resolve, reject) {
       let pivot = arr[end].val;
       let i = start - 1; // tracking pivot location
       let j = start - 1;
+      arr[end].markStatic();
 
       function swapAndRender(j) {
         i++;
-
+        if (j === end) {
+          arr[end].markStatic();
+          resolve(i);
+        }
         const temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
         arr[i].mark1();
         arr[j].mark2();
-        if (j === end) {
-          arr[end].markStatic();
-          resolve(i);
-        }
       }
-      arr[end].markStatic();
-      timedWhileLoop();
-      function timedWhileLoop() {
+      const timedWhileLoop = () => {
         setTimeout(() => {
           if (j < end) {
             j++;
@@ -270,7 +274,8 @@ function myFunc() {
             timedWhileLoop();
           }
         }, speed.value);
-      }
+      };
+      timedWhileLoop();
     });
   }
 } // entire block
