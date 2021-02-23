@@ -51,7 +51,7 @@ class Triangle {
 
   mark1() {
     if (!this.static) {
-      this.color = "#FFD700";
+      this.color = "red";
       setTimeout(() => {
         this.color = this.DEFAULT_COLOR;
       }, this.speed.value * 1.5);
@@ -68,13 +68,20 @@ class Triangle {
   }
 
   markStatic() {
-    const pivotColor = "#ff00ff";
-    this.static = !this.static;
-    if (this.color === pivotColor) {
-      this.color = this.DEFAULT_COLOR;
-    } else {
-      this.color = pivotColor;
-    }
+    this.static = true;
+    this.color = "#FF00FF";
+    // if (this.static) {
+    //   this.color = this.DEFAULT_COLOR;
+    //   this.static = false;
+    // } else {
+    //   this.color = str;
+    //   this.static = true;
+    // }
+  }
+
+  colorReset() {
+    this.static = false;
+    this.color = this.DEFAULT_COLOR;
   }
 
   reset() {
