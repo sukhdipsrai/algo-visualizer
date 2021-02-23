@@ -9,42 +9,65 @@ const currentStateObj = {
   currentEventListeners: [],
 };
 
-let sortSelect = "1";
+let algoSelect = { value: null };
 
-document.querySelector("#quick-sort").addEventListener("click", myFunc);
+document.querySelector("#quick-sort").addEventListener("click", () => {
+  startHandler("quick-sort");
+});
+document.querySelector("#bubble-sort").addEventListener("click", () => {
+  startHandler("bubble-sort");
+});
+
 const canvas = new canvasExample();
 canvas.createCanvas();
 
-function myFunc() {
+function startHandler(id) {
+  // TODO handle logic og button views
+  debugger;
+  if (algoSelect.value === null) {
+    myFunc(algoSelect);
+  }
+  algoSelect.value = id;
+}
+
+function myFunc(algo) {
   let myTri = [];
   let animating = true;
   let speed = { value: 5 };
   let sliceFactor = 8; // increasing will create more triangle slices
 
-  // myFunc is the main function that runs all sorts, buttons are abstracted outside of the function scope
-  // possible to instanstiate myFunc as a class but there is too much DOM functionality that would be un-class like to do
-  // switch (sortSelect) {
-  //   case "1":
-  //   // quikcsort, define start() accordingly
-  //   case "2":
-  //   // some other sort, define start() accordingly
-  //   case "3":
-  //   //some other sort, define start() accordingly
-  //   case "4":
-  //   //some other sort, define start() accordingly
-
-  //   default:
-  //     "1";
-  // }
-
   reset();
 
-  function initializeButtons() {
-    let qsb = document.querySelector("#quick-sort");
-    qsb.removeEventListener("click", myFunc);
-    qsb.classList.add("unclickable");
-    qsb.classList.remove("clickable");
+  function startAlgo() {
+    toggleSortButtons(true);
+    console.log(algo.value);
+    debugger;
 
+    switch (algo.value) {
+      case "quick-sort":
+        startQS();
+      case "bubble-sort":
+        startBS();
+      default:
+        console.log("Default Sort, something went wrong");
+    }
+  }
+
+  function toggleSortButtons(value) {
+    Array.from(document.getElementsByClassName("algo")).forEach((ele) => {
+      ele.classList.toggle("unclickable");
+      ele.classList.toggle("clickable");
+      ele.disabled = value;
+    });
+
+    // let qsb = document.getElementById(id);
+    // qsb.disabled = true;
+    // // qsb.removeEventListener("click", myFunc);
+    // qsb.classList.add("unclickable");
+    // qsb.classList.remove("clickable");
+  }
+
+  function initializeButtons() {
     if (document.getElementById("forwardButton") === null) {
       let forwardButton = document.createElement("button");
       forwardButton.id = "forwardButton";
@@ -59,7 +82,7 @@ function myFunc() {
       let playButton = document.createElement("button");
       playButton.id = "playButton";
       playButton.innerHTML = "PLAY";
-      playButton.addEventListener("click", startQS);
+      playButton.addEventListener("click", startAlgo);
       const bCtrls = document.getElementById("button-controls");
       bCtrls.insertBefore(playButton, bCtrls.firstChild);
     } else document.getElementById("forwardButton").hidden = false;
@@ -195,12 +218,26 @@ function myFunc() {
   function enableButtons() {
     resetButton.disabled = false;
     resetButton.classList.remove("unclickable");
+    toggleSortButtons(false);
   }
 
   function startQS() {
     hideButtons();
     quickSort(myTri, 0, myTri.length - 1).then(() => {
       enableButtons();
+    });
+  }
+
+  function startBS() {
+    hideButtons();
+    bubbleSort().then(() => {
+      enableButtons();
+    });
+  }
+
+  function bubbleSort() {
+    return new Promise((resolve) => {
+      resolve(5);
     });
   }
 
@@ -219,6 +256,7 @@ function myFunc() {
     });
   }
 
+  // no longer being used, held for reference
   function quickSortPartition(arr, start, end) {
     return new Promise(function (resolve, reject) {
       let pivot = arr[end].val;
@@ -252,28 +290,32 @@ function myFunc() {
       let pivot = arr[end].val;
       let i = start - 1; // tracking pivot location
       let j = start - 1;
-      arr[end].markStatic();
 
       const swapAndRender = (j) => {
         if (arr[j].val <= pivot) {
           i++;
           if (j === end) {
             arr[end].static = false;
+            arr[start].colorReset();
           }
           const temp = arr[i];
           arr[i] = arr[j];
           arr[j] = temp;
           arr[i].mark1();
           arr[j].mark2();
+          if (i !== start && j !== end) arr[start].markStatic();
           if (j === end) {
             resolve(i);
           }
-        } else arr[j].mark2();
+        } else {
+          arr[j].mark2();
+          if (i < 0) arr[0].mark1();
+          else arr[i].mark1();
+        }
       };
       const timedWhileLoop = () => {
         setTimeout(() => {
           arr[end].markStatic();
-
           if (j < end) {
             j++;
             swapAndRender(j);
