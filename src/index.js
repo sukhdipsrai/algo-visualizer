@@ -20,7 +20,7 @@ document.querySelector("#bubble-sort").addEventListener("click", () => {
 document.querySelector("#radix-sort").addEventListener("click", () => {
   startHandler("radix-sort");
 });
-document.querySelector("#bubble-sort").addEventListener("click", () => {
+document.querySelector("#selection-sort").addEventListener("click", () => {
   startHandler("selection-sort");
 });
 
@@ -28,8 +28,6 @@ const canvas = new canvasExample();
 canvas.createCanvas();
 
 function startHandler(id) {
-  // TODO handle logic og button views
-  debugger;
   if (algoSelect.value === null) {
     myFunc(algoSelect);
   }
@@ -52,8 +50,6 @@ function myFunc(algo) {
   function startAlgo() {
     toggleSortButtons(true);
     console.log(algo.value, " started by algo-value");
-    debugger;
-
     switch (algo.value) {
       case "quick-sort":
         startQS();
