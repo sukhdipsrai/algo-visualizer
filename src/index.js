@@ -9,47 +9,83 @@ const currentStateObj = {
   currentEventListeners: [],
 };
 
-let sortSelect = "1";
+let algoSelect = { value: null };
 
-document.querySelector("#quick-sort").addEventListener("click", myFunc);
+document.querySelector("#quick-sort").addEventListener("click", () => {
+  startHandler("quick-sort");
+});
+document.querySelector("#bubble-sort").addEventListener("click", () => {
+  startHandler("bubble-sort");
+});
+
 const canvas = new canvasExample();
 canvas.createCanvas();
 
-function myFunc() {
+function startHandler(id) {
+  // TODO handle logic og button views
+  debugger;
+  if (algoSelect.value === null) {
+    myFunc(algoSelect);
+  }
+  algoSelect.value = id;
+
+  Array.from(document.getElementsByClassName("algo")).forEach((ele) => {
+    ele.classList.remove("selectedButton");
+  });
+  document.getElementById(id).classList.add("selectedButton");
+}
+
+function myFunc(algo) {
   let myTri = [];
   let animating = true;
   let speed = { value: 5 };
   let sliceFactor = 8; // increasing will create more triangle slices
 
-  // myFunc is the main function that runs all sorts, buttons are abstracted outside of the function scope
-  // possible to instanstiate myFunc as a class but there is too much DOM functionality that would be un-class like to do
-  // switch (sortSelect) {
-  //   case "1":
-  //   // quikcsort, define start() accordingly
-  //   case "2":
-  //   // some other sort, define start() accordingly
-  //   case "3":
-  //   //some other sort, define start() accordingly
-  //   case "4":
-  //   //some other sort, define start() accordingly
-
-  //   default:
-  //     "1";
-  // }
-
   reset();
 
-  function initializeButtons() {
-    let qsb = document.querySelector("#quick-sort");
-    qsb.removeEventListener("click", myFunc);
-    qsb.classList.add("unclickable");
-    qsb.classList.remove("clickable");
+  function startAlgo() {
+    toggleSortButtons(true);
+    console.log(algo.value, " started by algo-value");
+    debugger;
 
+    switch (algo.value) {
+      case "quick-sort":
+        startQS();
+        return;
+      case "bubble-sort":
+        startBS();
+        return;
+    }
+  }
+
+  function toggleSortButtons(value) {
+    Array.from(document.getElementsByClassName("algo")).forEach((ele) => {
+      ele.classList.toggle("unclickable");
+      ele.classList.toggle("clickable");
+      ele.disabled = value;
+    });
+
+    // let qsb = document.getElementById(id);
+    // qsb.disabled = true;
+    // // qsb.removeEventListener("click", myFunc);
+    // qsb.classList.add("unclickable");
+    // qsb.classList.remove("clickable");
+  }
+
+  function initializeButtons() {
     if (document.getElementById("forwardButton") === null) {
       let forwardButton = document.createElement("button");
+      let forwardButtonContainer = document.createElement("div");
+      let forwardLoad = document.createElement("div");
+      forwardButtonContainer.id = "forwardButtonContainer";
+      forwardLoad.id = "forwardLoad";
       forwardButton.id = "forwardButton";
-      forwardButton.innerHTML = "SLOWER";
-      document.getElementById("button-controls").appendChild(forwardButton);
+      forwardButton.innerHTML = "&#9658&#9658";
+      forwardButtonContainer.append(forwardButton);
+      forwardButtonContainer.append(forwardLoad);
+      document
+        .getElementById("button-controls")
+        .appendChild(forwardButtonContainer);
       document
         .getElementById("forwardButton")
         .addEventListener("click", cycleSpeed);
@@ -58,25 +94,34 @@ function myFunc() {
     if (document.getElementById("playButton") === null) {
       let playButton = document.createElement("button");
       playButton.id = "playButton";
-      playButton.innerHTML = "PLAY";
-      playButton.addEventListener("click", startQS);
+      playButton.innerHTML = "&#9658";
+      playButton.addEventListener("click", startAlgo);
       const bCtrls = document.getElementById("button-controls");
       bCtrls.insertBefore(playButton, bCtrls.firstChild);
-    } else document.getElementById("forwardButton").hidden = false;
+    } else document.getElementById("forwardButtonContainer").hidden = false;
 
     if (document.getElementById("sliceButton") === null) {
+      let sliceButtonContainer = document.createElement("div");
+      sliceButtonContainer.id = "sliceButtonContainer";
+      let loadBorder = document.createElement("div");
+      loadBorder.id = "sliceLoad";
       let sliceButton = document.createElement("button");
       sliceButton.id = "sliceButton";
-      sliceButton.innerHTML = "MORE TRIANGLES";
+      sliceButton.innerHTML = "+";
       sliceButton.addEventListener("click", cycleSlice);
       const bCtrls = document.getElementById("button-controls");
-      bCtrls.insertBefore(sliceButton, document.getElementById("resetButton"));
-    } else document.getElementById("sliceButton").hidden = false;
+      sliceButtonContainer.append(sliceButton);
+      sliceButtonContainer.append(loadBorder);
+      bCtrls.insertBefore(
+        sliceButtonContainer,
+        document.getElementById("resetButton")
+      );
+    } else document.getElementById("sliceButtonContainer").hidden = false;
 
     if (document.getElementById("resetButton") === null) {
       let resetButton = document.createElement("button");
       resetButton.id = "resetButton";
-      resetButton.innerHTML = "RESET";
+      resetButton.innerHTML = "&#8634";
       resetButton.addEventListener("click", reset);
       const bCtrls = document.getElementById("button-controls");
       bCtrls.appendChild(resetButton);
@@ -84,42 +129,50 @@ function myFunc() {
   }
 
   function cycleSpeed() {
-    if (speed.value == 5) {
+    if (speed.value === 5) {
       speed.value = 50;
-      document.getElementById("forwardButton").innerHTML = "FASTER";
+      document.getElementById("forwardLoad").style.right = "50%";
     } else {
       speed.value = 5;
-      document.getElementById("forwardButton").innerHTML = "SLOWER";
+      document.getElementById("forwardLoad").style.right = "0%";
     }
   }
 
   function cycleSlice() {
-    let sliceButton = document.getElementById("sliceButton");
+    let load = document.getElementById("sliceLoad");
     switch (sliceFactor) {
       case 8:
         sliceFactor = 14;
+        load.style.right = "68%";
+
         reset();
-        sliceButton.innerHTML = "EVEN MORE TRIANGLES";
         return;
       case 14:
         sliceFactor = 20;
+        load.style.right = "52%";
+
         reset();
-        sliceButton.innerHTML = "MORE TRIANGLES...";
         return;
       case 20:
         sliceFactor = 28;
+        load.style.right = "36%";
+
         reset();
-        sliceButton.innerHTML = "I SAID MORE!";
         return;
       case 28:
         sliceFactor = 40;
+        load.style.right = "16%";
         reset();
-        sliceButton.innerHTML = "MAYBE NOT?";
         return;
       case 40:
-        sliceFactor = 8;
+        sliceFactor = 50;
+        load.style.right = "0%";
         reset();
-        sliceButton.innerHTML = "MORE TRIANGLES";
+        return;
+      case 50:
+        sliceFactor = 8;
+        load.style.right = "84%";
+        reset();
         return;
     }
   }
@@ -185,22 +238,41 @@ function myFunc() {
 
   function hideButtons() {
     document.getElementById("playButton").hidden = true;
-    document.getElementById("forwardButton").hidden = true;
-    document.getElementById("sliceButton").hidden = true;
+    document.getElementById("forwardButtonContainer").hidden = true;
+    document.getElementById("sliceButtonContainer").hidden = true;
     let resetButton = document.getElementById("resetButton");
-    resetButton.disabled = true;
+    resetButton.hidden = true;
     resetButton.classList.add("unclickable");
   }
 
   function enableButtons() {
-    resetButton.disabled = false;
+    let resetButton = document.getElementById("resetButton");
+    resetButton.hidden = false;
     resetButton.classList.remove("unclickable");
+    toggleSortButtons(false);
   }
 
   function startQS() {
     hideButtons();
     quickSort(myTri, 0, myTri.length - 1).then(() => {
       enableButtons();
+    });
+  }
+
+  function startBS() {
+    hideButtons();
+    bubbleSort().then(() => {
+      enableButtons();
+      console.log("bubble sort finished");
+    });
+  }
+
+  function bubbleSort() {
+    return new Promise((resolve) => {
+      console.log("bubble Sort RUNNNING");
+      setTimeout(() => {
+        resolve(5);
+      }, 5000);
     });
   }
 
@@ -219,6 +291,7 @@ function myFunc() {
     });
   }
 
+  // no longer being used, held for reference
   function quickSortPartition(arr, start, end) {
     return new Promise(function (resolve, reject) {
       let pivot = arr[end].val;
@@ -252,32 +325,37 @@ function myFunc() {
       let pivot = arr[end].val;
       let i = start - 1; // tracking pivot location
       let j = start - 1;
-      arr[end].markStatic();
 
       const swapAndRender = (j) => {
         if (arr[j].val <= pivot) {
           i++;
           if (j === end) {
-            arr[end].static = false;
+            arr[end].colorReset(); // = false;
+            arr[start].colorReset();
           }
+          if (i !== start && j !== end) arr[start].markStatic();
+
           const temp = arr[i];
           arr[i] = arr[j];
           arr[j] = temp;
-          arr[i].mark1();
+          arr[i].mark2();
           arr[j].mark2();
           if (j === end) {
             resolve(i);
           }
-        } else arr[j].mark2();
+        } else {
+          arr[j].mark2();
+          if (i < 0) arr[0].mark2();
+          else arr[i].mark2();
+        }
       };
       const timedWhileLoop = () => {
         setTimeout(() => {
           arr[end].markStatic();
-
           if (j < end) {
             j++;
             swapAndRender(j);
-            timedWhileLoop();
+            if (j !== end) timedWhileLoop();
           }
         }, speed.value);
       };
