@@ -32,10 +32,18 @@ body {
 }
 
 #algo-buttons {
-  align-self: center;
+  display: table-cell;
+  vertical-align: middle;
   button {
     border-top: 5px solid black;
     padding-bottom: 5px;
+    font-size: 75%;
+    text-align: center;
+    width: 11vw;
+    height: 5vh;
+    min-width: 120px;
+    min-height: 20px;
+    margin: 2px;
   }
   button.selectedButton {
     border-top: 5px solid yellowgreen;

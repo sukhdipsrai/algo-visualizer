@@ -17,6 +17,12 @@ document.querySelector("#quick-sort").addEventListener("click", () => {
 document.querySelector("#bubble-sort").addEventListener("click", () => {
   startHandler("bubble-sort");
 });
+document.querySelector("#radix-sort").addEventListener("click", () => {
+  startHandler("radix-sort");
+});
+document.querySelector("#bubble-sort").addEventListener("click", () => {
+  startHandler("selection-sort");
+});
 
 const canvas = new canvasExample();
 canvas.createCanvas();
@@ -54,6 +60,12 @@ function myFunc(algo) {
         return;
       case "bubble-sort":
         startBS();
+        return;
+      case "radix-sort":
+        startRS();
+        return;
+      case "selection-sort":
+        startSS();
         return;
     }
   }
@@ -266,10 +278,40 @@ function myFunc(algo) {
       console.log("bubble sort finished");
     });
   }
+  function startRS() {
+    hideButtons();
+    radixSort().then(() => {
+      enableButtons();
+      console.log("radix sort finished");
+    });
+  }
+  function startSS() {
+    hideButtons();
+    selectionSort().then(() => {
+      enableButtons();
+      console.log("selection sort finished");
+    });
+  }
 
   function bubbleSort() {
     return new Promise((resolve) => {
       console.log("bubble Sort RUNNNING");
+      setTimeout(() => {
+        resolve(5);
+      }, 5000);
+    });
+  }
+  function radixSort() {
+    return new Promise((resolve) => {
+      console.log("radix Sort RUNNNING");
+      setTimeout(() => {
+        resolve(5);
+      }, 5000);
+    });
+  }
+  function selectionSort() {
+    return new Promise((resolve) => {
+      console.log("selection Sort RUNNNING");
       setTimeout(() => {
         resolve(5);
       }, 5000);
