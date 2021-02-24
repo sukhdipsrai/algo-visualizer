@@ -28,6 +28,11 @@ function startHandler(id) {
     myFunc(algoSelect);
   }
   algoSelect.value = id;
+
+  Array.from(document.getElementsByClassName("algo")).forEach((ele) => {
+    ele.classList.remove("selectedButton");
+  });
+  document.getElementById(id).classList.add("selectedButton");
 }
 
 function myFunc(algo) {
@@ -40,16 +45,16 @@ function myFunc(algo) {
 
   function startAlgo() {
     toggleSortButtons(true);
-    console.log(algo.value);
+    console.log(algo.value, " started by algo-value");
     debugger;
 
     switch (algo.value) {
       case "quick-sort":
         startQS();
+        return;
       case "bubble-sort":
         startBS();
-      default:
-        console.log("Default Sort, something went wrong");
+        return;
     }
   }
 
@@ -216,6 +221,7 @@ function myFunc(algo) {
   }
 
   function enableButtons() {
+    let resetButton = document.getElementById("resetButton");
     resetButton.disabled = false;
     resetButton.classList.remove("unclickable");
     toggleSortButtons(false);
@@ -232,12 +238,16 @@ function myFunc(algo) {
     hideButtons();
     bubbleSort().then(() => {
       enableButtons();
+      console.log("bubble sort finished");
     });
   }
 
   function bubbleSort() {
     return new Promise((resolve) => {
-      resolve(5);
+      console.log("bubble Sort RUNNNING");
+      setTimeout(() => {
+        resolve(5);
+      }, 5000);
     });
   }
 
