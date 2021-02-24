@@ -54,7 +54,7 @@ class Triangle {
       this.color = "red";
       setTimeout(() => {
         this.color = this.DEFAULT_COLOR;
-      }, this.speed.value * 1.5);
+      }, this.speed.value);
     }
   }
 
@@ -63,7 +63,7 @@ class Triangle {
       this.color = "#FFD700";
       setTimeout(() => {
         this.color = this.DEFAULT_COLOR;
-      }, this.speed.value * 1.5);
+      }, this.speed.value);
     }
   }
 

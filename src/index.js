@@ -75,9 +75,17 @@ function myFunc(algo) {
   function initializeButtons() {
     if (document.getElementById("forwardButton") === null) {
       let forwardButton = document.createElement("button");
+      let forwardButtonContainer = document.createElement("div");
+      let forwardLoad = document.createElement("div");
+      forwardButtonContainer.id = "forwardButtonContainer";
+      forwardLoad.id = "forwardLoad";
       forwardButton.id = "forwardButton";
-      forwardButton.innerHTML = "SLOWER";
-      document.getElementById("button-controls").appendChild(forwardButton);
+      forwardButton.innerHTML = "&#9658&#9658";
+      forwardButtonContainer.append(forwardButton);
+      forwardButtonContainer.append(forwardLoad);
+      document
+        .getElementById("button-controls")
+        .appendChild(forwardButtonContainer);
       document
         .getElementById("forwardButton")
         .addEventListener("click", cycleSpeed);
@@ -86,25 +94,34 @@ function myFunc(algo) {
     if (document.getElementById("playButton") === null) {
       let playButton = document.createElement("button");
       playButton.id = "playButton";
-      playButton.innerHTML = "PLAY";
+      playButton.innerHTML = "&#9658";
       playButton.addEventListener("click", startAlgo);
       const bCtrls = document.getElementById("button-controls");
       bCtrls.insertBefore(playButton, bCtrls.firstChild);
-    } else document.getElementById("forwardButton").hidden = false;
+    } else document.getElementById("forwardButtonContainer").hidden = false;
 
     if (document.getElementById("sliceButton") === null) {
+      let sliceButtonContainer = document.createElement("div");
+      sliceButtonContainer.id = "sliceButtonContainer";
+      let loadBorder = document.createElement("div");
+      loadBorder.id = "sliceLoad";
       let sliceButton = document.createElement("button");
       sliceButton.id = "sliceButton";
-      sliceButton.innerHTML = "MORE TRIANGLES";
+      sliceButton.innerHTML = "+";
       sliceButton.addEventListener("click", cycleSlice);
       const bCtrls = document.getElementById("button-controls");
-      bCtrls.insertBefore(sliceButton, document.getElementById("resetButton"));
-    } else document.getElementById("sliceButton").hidden = false;
+      sliceButtonContainer.append(sliceButton);
+      sliceButtonContainer.append(loadBorder);
+      bCtrls.insertBefore(
+        sliceButtonContainer,
+        document.getElementById("resetButton")
+      );
+    } else document.getElementById("sliceButtonContainer").hidden = false;
 
     if (document.getElementById("resetButton") === null) {
       let resetButton = document.createElement("button");
       resetButton.id = "resetButton";
-      resetButton.innerHTML = "RESET";
+      resetButton.innerHTML = "&#8634";
       resetButton.addEventListener("click", reset);
       const bCtrls = document.getElementById("button-controls");
       bCtrls.appendChild(resetButton);
@@ -112,42 +129,50 @@ function myFunc(algo) {
   }
 
   function cycleSpeed() {
-    if (speed.value == 5) {
+    if (speed.value === 5) {
       speed.value = 50;
-      document.getElementById("forwardButton").innerHTML = "FASTER";
+      document.getElementById("forwardLoad").style.right = "50%";
     } else {
       speed.value = 5;
-      document.getElementById("forwardButton").innerHTML = "SLOWER";
+      document.getElementById("forwardLoad").style.right = "0%";
     }
   }
 
   function cycleSlice() {
-    let sliceButton = document.getElementById("sliceButton");
+    let load = document.getElementById("sliceLoad");
     switch (sliceFactor) {
       case 8:
         sliceFactor = 14;
+        load.style.right = "68%";
+
         reset();
-        sliceButton.innerHTML = "EVEN MORE TRIANGLES";
         return;
       case 14:
         sliceFactor = 20;
+        load.style.right = "52%";
+
         reset();
-        sliceButton.innerHTML = "MORE TRIANGLES...";
         return;
       case 20:
         sliceFactor = 28;
+        load.style.right = "36%";
+
         reset();
-        sliceButton.innerHTML = "I SAID MORE!";
         return;
       case 28:
         sliceFactor = 40;
+        load.style.right = "16%";
         reset();
-        sliceButton.innerHTML = "MAYBE NOT?";
         return;
       case 40:
-        sliceFactor = 8;
+        sliceFactor = 50;
+        load.style.right = "0%";
         reset();
-        sliceButton.innerHTML = "MORE TRIANGLES";
+        return;
+      case 50:
+        sliceFactor = 8;
+        load.style.right = "84%";
+        reset();
         return;
     }
   }
@@ -213,16 +238,16 @@ function myFunc(algo) {
 
   function hideButtons() {
     document.getElementById("playButton").hidden = true;
-    document.getElementById("forwardButton").hidden = true;
-    document.getElementById("sliceButton").hidden = true;
+    document.getElementById("forwardButtonContainer").hidden = true;
+    document.getElementById("sliceButtonContainer").hidden = true;
     let resetButton = document.getElementById("resetButton");
-    resetButton.disabled = true;
+    resetButton.hidden = true;
     resetButton.classList.add("unclickable");
   }
 
   function enableButtons() {
     let resetButton = document.getElementById("resetButton");
-    resetButton.disabled = false;
+    resetButton.hidden = false;
     resetButton.classList.remove("unclickable");
     toggleSortButtons(false);
   }
@@ -305,22 +330,23 @@ function myFunc(algo) {
         if (arr[j].val <= pivot) {
           i++;
           if (j === end) {
-            arr[end].static = false;
+            arr[end].colorReset(); // = false;
             arr[start].colorReset();
           }
+          if (i !== start && j !== end) arr[start].markStatic();
+
           const temp = arr[i];
           arr[i] = arr[j];
           arr[j] = temp;
-          arr[i].mark1();
+          arr[i].mark2();
           arr[j].mark2();
-          if (i !== start && j !== end) arr[start].markStatic();
           if (j === end) {
             resolve(i);
           }
         } else {
           arr[j].mark2();
-          if (i < 0) arr[0].mark1();
-          else arr[i].mark1();
+          if (i < 0) arr[0].mark2();
+          else arr[i].mark2();
         }
       };
       const timedWhileLoop = () => {
@@ -329,7 +355,7 @@ function myFunc(algo) {
           if (j < end) {
             j++;
             swapAndRender(j);
-            timedWhileLoop();
+            if (j !== end) timedWhileLoop();
           }
         }, speed.value);
       };
