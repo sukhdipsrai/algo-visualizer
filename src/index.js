@@ -281,7 +281,7 @@ function myFunc(algo) {
       console.log("radix sort finished");
       let vals = [];
       for (let i = 0; i < myTri.length; i++) vals.push(myTri[i].val);
-      console.log(vals);
+      console.log(isSorted(vals));
     });
   }
   function startSS() {
@@ -325,7 +325,20 @@ function myFunc(algo) {
       outerLoop();
     });
   }
-
+  const isSorted = (arr) => {
+    const { length: l } = arr;
+    if (l <= 1) {
+      return true;
+    }
+    for (let i = 1; i < l; i++) {
+      const con1 = arr[i] > 0 && arr[i - 1] < 0;
+      const con2 = arr[i] < 0 && arr[i - 1] > 0;
+      if (con1 || con2) {
+        return false;
+      }
+    }
+    return true;
+  };
   function radixSort(arr) {
     return new Promise((resolve) => {
       console.log("radix Sort RUNNNING");
@@ -368,34 +381,44 @@ function myFunc(algo) {
       }
 
       let vals = [];
-      for (let i = 0; i < sortedArray.length; i++)
-        vals.push(sortedArray[i].val);
-      console.log(vals);
-
-      let i = 0;
-      const transferLoop = () => {
+      // for (let i = 0; i < sortedArray.length; i++)
+      //   vals.push(sortedArray[i].val);
+      // console.log(vals);
+      const scanVisual = (i) => {
+        setTimeout(() => {
+          if (i === -1) transferLoop(0);
+          else {
+            arr[i].mark2();
+            i--;
+            scanVisual(i);
+          }
+        }, speed.value);
+      };
+      scanVisual(arr.length - 1);
+      const transferLoop = (i) => {
         debugger;
         setTimeout(() => {
           // if (arr[i].val !== sortedArray[i].val) {
           // arr[i] = sortedArray[i];
           // Object.freeze(arr[i]);
+          // console.log("i: ", i, " val: ", sortedArray[i].val);
           arr[i].val = sortedArray[i].val;
           arr[i].defaultColor = sortedArray[i].defaultColor;
           arr[i].color = sortedArray[i].color;
           // arr[i].xDist = sortedArray[i].xDist;
           // arr[i].marked = sortedArray[i].marked;
           // console.log(arr[i]);
-          // arr[i].mark1();
+          arr[i].mark1();
           // sortedArray[i].mark1();
           // } else arr[i].mark2();
           i++;
-          if (i === arr.length - 1) resolve(null);
-          else transferLoop();
+          if (i === arr.length) resolve(null);
+          else transferLoop(i);
         }, speed.value);
       };
       // arr = sortedArray;
       // resolve(null);
-      transferLoop();
+      // transferLoop(0);
       // for (let i = 0; i < sortedArray.length; i++) {
       //   arr[i].color = sortedArray[i].color;
       //   arr[i].defaultColor = sortedArray[i].defaultColor;
