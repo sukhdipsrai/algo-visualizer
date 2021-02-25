@@ -398,19 +398,19 @@ function myFunc(algo) {
       const transferLoop = (i) => {
         debugger;
         setTimeout(() => {
-          // if (arr[i].val !== sortedArray[i].val) {
-          // arr[i] = sortedArray[i];
-          // Object.freeze(arr[i]);
-          // console.log("i: ", i, " val: ", sortedArray[i].val);
-          arr[i].val = sortedArray[i].val;
-          arr[i].defaultColor = sortedArray[i].defaultColor;
-          arr[i].color = sortedArray[i].color;
-          // arr[i].xDist = sortedArray[i].xDist;
-          // arr[i].marked = sortedArray[i].marked;
-          // console.log(arr[i]);
-          arr[i].mark1();
-          // sortedArray[i].mark1();
-          // } else arr[i].mark2();
+          if (arr[i].val !== sortedArray[i].val) {
+            // arr[i] = sortedArray[i];
+            // Object.freeze(arr[i]);
+            // console.log("i: ", i, " val: ", sortedArray[i].val);
+            arr[i].val = sortedArray[i].val;
+            arr[i].defaultColor = sortedArray[i].defaultColor;
+            arr[i].color = sortedArray[i].color;
+            // arr[i].xDist = sortedArray[i].xDist;
+            // arr[i].marked = sortedArray[i].marked;
+            // console.log(arr[i]);
+            arr[i].mark1();
+            // sortedArray[i].mark1();
+          } else arr[i].mark2();
           i++;
           if (i === arr.length) resolve(null);
           else transferLoop(i);
