@@ -325,20 +325,6 @@ function myFunc(algo) {
       outerLoop();
     });
   }
-  const isSorted = (arr) => {
-    const { length: l } = arr;
-    if (l <= 1) {
-      return true;
-    }
-    for (let i = 1; i < l; i++) {
-      const con1 = arr[i] > 0 && arr[i - 1] < 0;
-      const con2 = arr[i] < 0 && arr[i - 1] > 0;
-      if (con1 || con2) {
-        return false;
-      }
-    }
-    return true;
-  };
   function radixSort(arr) {
     return new Promise((resolve) => {
       console.log("radix Sort RUNNNING");
@@ -469,94 +455,5 @@ function myFunc(algo) {
       };
       timedWhileLoop();
     });
-  }
-} // entire block
-
-// Square constructor gets a canvas property, coords , color
-
-// function startCanvas() {
-//     clearDemo();
-//     unregisterEventListeners();
-//     currentStateObj.currentExample = "CANVASDEMO";
-//     const canvas = new canvasExample();
-//     canvas.createCanvas();
-//     const squares = [new Square(canvas.ctx, canvas.coords, canvas.fillColor)];
-
-//     let animating = true;
-
-//     const animation = () => {
-//         canvas.clearCanvas();
-//         if (animating) squares.forEach((sq) => sq.updateSquare(canvas.fillColor));
-//         squares.forEach((sq) => sq.drawSquare());
-//         window.requestAnimationFrame(animation);
-//         squares.forEach((sq) => {
-//             if (sq.coords[0] + sq.coords[2] > window.innerWidth)
-//                 sq.reverseAnimation();
-//             if (sq.coords[0] < 0) sq.reverseAnimation();
-//         });
-//     };
-
-//     window.requestAnimationFrame(animation);
-
-//     window.addEventListener("keydown", handleKeyDown);
-//     currentStateObj.currentEventListeners.push([
-//         "window",
-//         "keydown",
-//         handleKeyDown,
-//     ]);
-
-//     window.addEventListener("mousedown", handleMouseDown);
-//     currentStateObj.currentEventListeners.push([
-//         "window",
-//         "mousedown",
-//         handleMouseDown,
-//     ]);
-
-//     // 32 is ASCII for space, randomize color
-//     function handleKeyDown(event) {
-//         if (event.which === 32) {
-//             event.preventDefault();
-//             squares.forEach((sq) => sq.reverseAnimation());
-//             canvas.setColor(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
-//         }
-//     }
-
-//     // on click animate new square
-//     function handleMouseDown(event) {
-//         event.preventDefault();
-//         squares.push(
-//             new Square(
-//                 canvas.ctx,
-//                 canvas.coords.map((co) => co + 25),
-//                 canvas.fillColor
-//             )
-//         );
-//         // animating = !animating;
-//     }
-// }
-
-function unregisterEventListeners() {
-  while (currentStateObj.currentEventListeners.length) {
-    let [
-      selector,
-      event,
-      handler,
-    ] = currentStateObj.currentEventListeners.pop();
-    if (selector === "window") {
-      window.removeEventListener(event, handler);
-      // console.log(handler);
-    } else {
-      document.querySelector(selector).removeEventListener(event, handler);
-    }
-  }
-}
-
-function clearDemo() {
-  if (currentStateObj.currentExample === "CANVASDEMO")
-    document.body.removeChild(document.querySelector("canvas"));
-  if (currentStateObj.currentExample === "DOMDEMO") {
-    [...document.querySelectorAll(".card")].forEach((elem) =>
-      document.body.removeChild(elem)
-    );
   }
 }
