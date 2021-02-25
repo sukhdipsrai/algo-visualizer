@@ -278,10 +278,6 @@ function myFunc(algo) {
     hideButtons();
     radixSort(myTri).then(() => {
       enableButtons();
-      console.log("radix sort finished");
-      let vals = [];
-      for (let i = 0; i < myTri.length; i++) vals.push(myTri[i].val);
-      console.log(isSorted(vals));
     });
   }
   function startSS() {
