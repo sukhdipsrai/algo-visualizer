@@ -48,7 +48,7 @@ function myFunc(algo) {
 
   function startAlgo() {
     toggleSortButtons(true);
-    console.log(algo.value, " started by algo-value");
+    // console.log(algo.value, " started by algo-value");
     switch (algo.value) {
       case "quick-sort":
         startQS();
@@ -270,9 +270,10 @@ function myFunc(algo) {
     hideButtons();
     bubbleSort(myTri).then(() => {
       enableButtons();
-      console.log("bubble sort finished");
+      // console.log("bubble sort finished");
     });
   }
+
   function startRS() {
     hideButtons();
     radixSort(myTri).then(() => {
@@ -281,7 +282,7 @@ function myFunc(algo) {
   }
   function startSS() {
     hideButtons();
-    selectionSort().then(() => {
+    selectionSort(myTri).then(() => {
       enableButtons();
       console.log("selection sort finished");
     });
@@ -289,7 +290,7 @@ function myFunc(algo) {
 
   function bubbleSort(arr) {
     return new Promise((resolve) => {
-      console.log("bubble Sort RUNNNING");
+      // console.log("bubble Sort RUNNNING");
       let swapsBool = true;
       let i = -1;
       const outerLoop = () => {
@@ -322,12 +323,12 @@ function myFunc(algo) {
   }
   function radixSort(arr) {
     return new Promise((resolve) => {
-      console.log("radix Sort RUNNNING");
+      // console.log("radix Sort RUNNNING");
       let exp = 1;
       const radixLoop = () => {
         setTimeout(() => {
           if (Math.floor(255 / exp) > 0) {
-            console.log("next exp");
+            // console.log("next exp");
             countingSort(arr, exp).then(() => {
               exp *= 10;
               radixLoop();
@@ -338,8 +339,9 @@ function myFunc(algo) {
       radixLoop();
     });
   }
+  // used by radix sort
   const countingSort = (arr, exp) => {
-    console.log("counting sort");
+    // console.log("counting sort");
     return new Promise((resolve) => {
       let sortedArray = new Array(arr.length);
       let bucket = new Array(10).fill(0);
@@ -384,12 +386,40 @@ function myFunc(algo) {
     });
   };
 
-  function selectionSort() {
+  function selectionSort(arr) {
     return new Promise((resolve) => {
       console.log("selection Sort RUNNNING");
-      setTimeout(() => {
-        resolve(5);
-      }, speed.value);
+
+      let i = 0;
+      let min = { val: 256, loc: null };
+      const outerLoop = () => {
+        if (i < arr.length) {
+          min.val = 256;
+          innerLoop(i);
+        } else resolve(null);
+      };
+
+      // from j to arr.length, find min...
+
+      const innerLoop = (j) => {
+        setTimeout(() => {
+          if (j < arr.length) {
+            if (arr[j].val < min.val) min = { val: arr[j].val, loc: j };
+            arr[j].mark2();
+            innerLoop(j + 1);
+          } else {
+            const temp = arr[i];
+            arr[i] = arr[min.loc];
+            arr[min.loc] = temp;
+            arr[i].mark1();
+            arr[min.loc].mark1();
+            i++;
+            outerLoop();
+          }
+        }, speed.value);
+      };
+
+      outerLoop(0);
     });
   }
 

@@ -14,7 +14,7 @@ class Triangle {
         this.color = "red";
         setTimeout(() => {
           this.color = this.defaultColor;
-        }, this.speed.value);
+        }, this.speed.value * 2);
       }
     };
 
