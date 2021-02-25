@@ -276,7 +276,6 @@ function myFunc(algo) {
   }
   function startRS() {
     hideButtons();
-    speed.value = 1000;
     radixSort(myTri).then(() => {
       enableButtons();
       console.log("radix sort finished");
@@ -334,48 +333,84 @@ function myFunc(algo) {
       const radixLoop = () => {
         setTimeout(() => {
           if (Math.floor(255 / exp) > 0) {
-            countingSort(arr, exp);
-            exp *= 10;
-            radixLoop();
+            console.log("next exp");
+            countingSort(arr, exp).then(() => {
+              exp *= 10;
+              radixLoop();
+            });
           } else resolve(null);
-        }, 2000);
+        }, speed.value);
       };
       radixLoop();
     });
   }
-
   const countingSort = (arr, exp) => {
-    let sortedArray = new Array(arr.length);
-    let bucket = new Array(10).fill(0);
-    for (let i = 0; i < arr.length; i++)
-      bucket[Math.floor(arr[i].val / exp) % 10]++;
-    for (let i = 1; i < 10; i++) bucket[i] += bucket[i - 1];
-    for (let i = arr.length - 1; i >= 0; i--) {
-      const loc = Math.floor(arr[i].val / exp) % 10;
-      sortedArray[bucket[loc] - 1] = arr[i];
-      bucket[loc]--;
-    }
-    for (let i = 0; i < arr.length; i++) {
-      if (myTri[i].val !== sortedArray[i].val) {
-        arr[i] = sortedArray[i];
-        arr[i].mark1();
-      }
-    }
-    // console.log(sortedArray);
-    // console.log(arr)
-    // console.log(bucket)
-    arr = sortedArray;
+    console.log("counting sort");
+    return new Promise((resolve) => {
+      let sortedArray = new Array(arr.length);
+      let bucket = new Array(10).fill(0);
+      for (let i = 0; i < arr.length; i++)
+        bucket[Math.floor(arr[i].val / exp) % 10]++;
+      for (let i = 1; i < 10; i++) bucket[i] += bucket[i - 1];
 
-    // let vals = [];
-    // for (let i = 0; i < arr.length; i++) vals.push(arr[i].val);
-    // console.log(vals);
+      const buildArrayLoop = (i) => {
+        setTimeout(() => {}, speed.value);
+      };
+
+      for (let i = arr.length - 1; i >= 0; i--) {
+        const loc = Math.floor(arr[i].val / exp) % 10;
+        sortedArray[bucket[loc] - 1] = {
+          val: arr[i].val,
+          color: arr[i].color,
+          defaultColor: arr[i].defaultColor,
+        };
+        bucket[loc]--;
+      }
+
+      let vals = [];
+      for (let i = 0; i < sortedArray.length; i++)
+        vals.push(sortedArray[i].val);
+      console.log(vals);
+
+      let i = 0;
+      const transferLoop = () => {
+        debugger;
+        setTimeout(() => {
+          // if (arr[i].val !== sortedArray[i].val) {
+          // arr[i] = sortedArray[i];
+          // Object.freeze(arr[i]);
+          arr[i].val = sortedArray[i].val;
+          arr[i].defaultColor = sortedArray[i].defaultColor;
+          arr[i].color = sortedArray[i].color;
+          // arr[i].xDist = sortedArray[i].xDist;
+          // arr[i].marked = sortedArray[i].marked;
+          // console.log(arr[i]);
+          // arr[i].mark1();
+          // sortedArray[i].mark1();
+          // } else arr[i].mark2();
+          i++;
+          if (i === arr.length - 1) resolve(null);
+          else transferLoop();
+        }, speed.value);
+      };
+      // arr = sortedArray;
+      // resolve(null);
+      transferLoop();
+      // for (let i = 0; i < sortedArray.length; i++) {
+      //   arr[i].color = sortedArray[i].color;
+      //   arr[i].defaultColor = sortedArray[i].defaultColor;
+      //   arr[i].val = sortedArray[i].val;
+      // }
+      // resolve(null);
+    });
   };
+
   function selectionSort() {
     return new Promise((resolve) => {
       console.log("selection Sort RUNNNING");
       setTimeout(() => {
         resolve(5);
-      }, 5000);
+      }, speed.value);
     });
   }
 
