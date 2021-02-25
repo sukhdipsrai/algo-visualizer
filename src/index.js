@@ -366,10 +366,6 @@ function myFunc(algo) {
         bucket[Math.floor(arr[i].val / exp) % 10]++;
       for (let i = 1; i < 10; i++) bucket[i] += bucket[i - 1];
 
-      const buildArrayLoop = (i) => {
-        setTimeout(() => {}, speed.value);
-      };
-
       for (let i = arr.length - 1; i >= 0; i--) {
         const loc = Math.floor(arr[i].val / exp) % 10;
         sortedArray[bucket[loc] - 1] = {
@@ -379,11 +375,6 @@ function myFunc(algo) {
         };
         bucket[loc]--;
       }
-
-      let vals = [];
-      // for (let i = 0; i < sortedArray.length; i++)
-      //   vals.push(sortedArray[i].val);
-      // console.log(vals);
       const scanVisual = (i) => {
         setTimeout(() => {
           if (i === -1) transferLoop(0);
@@ -396,35 +387,19 @@ function myFunc(algo) {
       };
       scanVisual(arr.length - 1);
       const transferLoop = (i) => {
-        debugger;
         setTimeout(() => {
           if (arr[i].val !== sortedArray[i].val) {
-            // arr[i] = sortedArray[i];
-            // Object.freeze(arr[i]);
-            // console.log("i: ", i, " val: ", sortedArray[i].val);
             arr[i].val = sortedArray[i].val;
             arr[i].defaultColor = sortedArray[i].defaultColor;
             arr[i].color = sortedArray[i].color;
-            // arr[i].xDist = sortedArray[i].xDist;
-            // arr[i].marked = sortedArray[i].marked;
-            // console.log(arr[i]);
+
             arr[i].mark1();
-            // sortedArray[i].mark1();
           } else arr[i].mark2();
           i++;
           if (i === arr.length) resolve(null);
           else transferLoop(i);
         }, speed.value);
       };
-      // arr = sortedArray;
-      // resolve(null);
-      // transferLoop(0);
-      // for (let i = 0; i < sortedArray.length; i++) {
-      //   arr[i].color = sortedArray[i].color;
-      //   arr[i].defaultColor = sortedArray[i].defaultColor;
-      //   arr[i].val = sortedArray[i].val;
-      // }
-      // resolve(null);
     });
   };
 
@@ -452,35 +427,6 @@ function myFunc(algo) {
     });
   }
 
-  // no longer being used, held for reference
-  function quickSortPartition(arr, start, end) {
-    return new Promise(function (resolve, reject) {
-      let pivot = arr[end].val;
-      let i = start - 1; // tracking pivot location
-      let j = start - 1;
-      let timeBuffer = 0;
-      while (j < end) {
-        j++;
-        if (arr[j].val <= pivot) swapAndRender(j);
-      }
-
-      function swapAndRender(j) {
-        setTimeout(function () {
-          i++;
-          // console.log("swap happened");
-          // console.log("swapping", arr[i], arr[j]);
-          const temp = arr[i];
-          arr[i] = arr[j];
-          arr[j] = temp;
-          arr[i].mark();
-          arr[j].mark();
-          if (j === end) resolve(i);
-          // window.requestAnimationFrame(animation);
-        }, j * speed.value);
-      }
-    });
-  }
-
   function quickSortPartition2(arr, start, end) {
     return new Promise(function (resolve, reject) {
       let pivot = arr[end].val;
@@ -500,15 +446,15 @@ function myFunc(algo) {
           const temp = arr[i];
           arr[i] = arr[j];
           arr[j] = temp;
-          arr[i].mark2();
+          arr[i].mark1();
           arr[j].mark2();
           if (j === end) {
             resolve(i);
           }
         } else {
           arr[j].mark2();
-          if (i < 0) arr[0].mark2();
-          else arr[i].mark2();
+          // if (i < 0) arr[0].mark2();
+          // else arr[i].mark1();
         }
       };
       const timedWhileLoop = () => {
