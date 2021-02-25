@@ -9,7 +9,7 @@ const currentStateObj = {
 };
 
 let algoSelect = { value: null };
-
+// TODO: loop over class list
 document.querySelector("#quick-sort").addEventListener("click", () => {
   startHandler("quick-sort");
 });
