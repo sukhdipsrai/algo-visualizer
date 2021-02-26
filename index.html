@@ -38,10 +38,30 @@
 
     <div id="button-controls">
     </div>
-    <div id = "modal-tutorial" class="hide-modal">
+    <div id = "modal-tutorial" class="show-modal">
         <div class="modal-content">
             <span class="close toggle-modal" >&times;</span>
-            <p>Some text in the Modal..</p>
+            <div class="modal-tab-container">
+                <button class="modal-tabs on" id="how-to-tab">Tutorial</button>
+                <button class="modal-tabs off" id="about-tab">About</button>
+            </div>
+            <div class="tab how-to visible">
+                <img src="src/images/full_tutorial.gif" class="tutorial-gif">
+                <div class="tutorial-text">
+
+                <p class="tutorial-text1">1. Start By Selecting A Sorting Algorithm</p>
+                <br>
+                <p class="tutorial-text2">2. Choose A Speed and Adjust Quantiy of Items</p>
+                <br>
+                <P class="tutorial-text3">3. Press Play and Observe the Items be Sorted.</p>
+                    <br>
+                <P class="tutorial-text3">4. Reset when Finished.</p>
+                </div>
+
+            </div>
+            <div class="tab about invisible">
+                <p>About this page</p>
+            </div>
           </div>
     </div>
     <script src="./dist/main.js"></script>

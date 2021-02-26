@@ -23,6 +23,27 @@ Array.from(document.getElementsByClassName("toggle-modal")).forEach((ele) => {
   });
 });
 
+document.getElementById("how-to-tab").addEventListener("click", () => {
+  ModalTabSwitch("how-to-tab");
+});
+
+document.getElementById("about-tab").addEventListener("click", () => {
+  ModalTabSwitch("about-tab");
+});
+
+function ModalTabSwitch(id) {
+  Array.from(document.getElementsByClassName("modal-tabs")).forEach((ele) => {
+    ele.disabled = false;
+    ele.classList.toggle("on");
+    ele.classList.toggle("off");
+  });
+  document.getElementById(id).disabled = true;
+  //TODO: add selected styling on id
+  Array.from(document.getElementsByClassName("tab")).forEach((ele) => {
+    ele.classList.toggle("invisible");
+    ele.classList.toggle("visible");
+  });
+}
 const canvas = new canvasExample();
 canvas.createCanvas();
 
