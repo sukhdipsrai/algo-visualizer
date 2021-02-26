@@ -7,6 +7,7 @@
 
 html,
 body {
+  font-family: "Lucida Console";
   width: 100%;
   height: 100%;
   background-color: black;
@@ -45,6 +46,7 @@ body {
     min-height: 20px;
     margin: 2px;
   }
+
   button.selectedButton {
     border-top: 5px solid yellowgreen;
     padding-bottom: 5px;
@@ -72,6 +74,15 @@ body {
   justify-content: center;
   align-items: center;
   padding: 1vh;
+  #tutorial-info {
+    width: 5vh;
+    height: 5vh;
+    margin-left: 1vw;
+  }
+
+  a:hover {
+    cursor: pointer;
+  }
 }
 
 #sliceLoad {
@@ -178,4 +189,78 @@ button {
   opacity: 0.5;
   transition: 0.3s;
   position: relative;
+}
+
+.show-modal {
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100vw; /* Full width */
+  height: auto; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.637); /* Black w/ opacity */
+
+  .modal-content {
+    background-color: rgb(60, 255, 255);
+    /* 15% from the top and centered */
+    margin: 16vh auto;
+    padding: 2vw;
+    width: 85vw; /* Could be more or less, depending on screen size */
+    max-width: 1300px;
+    height: auto;
+    /* The Close Button */
+    .close {
+      color: black;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: firebrick;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+}
+.hide-modal {
+  display: none;
+}
+
+.tutorial-text {
+  grid-area: info;
+}
+
+.tutorial-gif {
+  grid-area: gif;
+}
+.how-to {
+  grid-template-areas: "gif info";
+  img {
+    height: auto;
+    width: inherit;
+    max-width: 45vw;
+    margin: 2vw;
+  }
+}
+
+.visible {
+  display: grid;
+}
+
+.invisible {
+  display: none;
+}
+
+button.modal-tabs.on {
+  opacity: 1;
+  border-top: 5px solid greenyellow;
+}
+
+button.off {
+  cursor: pointer;
+  border-top: 5px solid black;
 }
