@@ -3,11 +3,6 @@ import "./styles/index.scss";
 import canvasExample from "./scripts/canvas";
 import Triangle from "./scripts/triangle";
 
-const currentStateObj = {
-  currentExample: null,
-  currentEventListeners: [],
-};
-
 let algoSelect = { value: null };
 // TODO: loop over class list
 document.querySelector("#quick-sort").addEventListener("click", () => {
@@ -21,6 +16,11 @@ document.querySelector("#radix-sort").addEventListener("click", () => {
 });
 document.querySelector("#selection-sort").addEventListener("click", () => {
   startHandler("selection-sort");
+});
+Array.from(document.getElementsByClassName("toggle-modal")).forEach((ele) => {
+  ele.addEventListener("click", () => {
+    modalHandler();
+  });
 });
 
 const canvas = new canvasExample();
@@ -38,6 +38,12 @@ function startHandler(id) {
   document.getElementById(id).classList.add("selectedButton");
 }
 
+function modalHandler() {
+  let modal = document.getElementById("modal-tutorial");
+  modal.classList.toggle("hide-modal");
+  modal.classList.toggle("show-modal");
+}
+
 function myFunc(algo) {
   let myTri = [];
   let animating = true;
@@ -48,7 +54,6 @@ function myFunc(algo) {
 
   function startAlgo() {
     toggleSortButtons(true);
-    // console.log(algo.value, " started by algo-value");
     switch (algo.value) {
       case "quick-sort":
         startQS();
@@ -270,7 +275,6 @@ function myFunc(algo) {
     hideButtons();
     bubbleSort(myTri).then(() => {
       enableButtons();
-      // console.log("bubble sort finished");
     });
   }
 
@@ -284,13 +288,11 @@ function myFunc(algo) {
     hideButtons();
     selectionSort(myTri).then(() => {
       enableButtons();
-      console.log("selection sort finished");
     });
   }
 
   function bubbleSort(arr) {
     return new Promise((resolve) => {
-      // console.log("bubble Sort RUNNNING");
       let swapsBool = true;
       let i = -1;
       const outerLoop = () => {
@@ -323,12 +325,10 @@ function myFunc(algo) {
   }
   function radixSort(arr) {
     return new Promise((resolve) => {
-      // console.log("radix Sort RUNNNING");
       let exp = 1;
       const radixLoop = () => {
         setTimeout(() => {
           if (Math.floor(255 / exp) > 0) {
-            // console.log("next exp");
             countingSort(arr, exp).then(() => {
               exp *= 10;
               radixLoop();
@@ -341,7 +341,6 @@ function myFunc(algo) {
   }
   // used by radix sort
   const countingSort = (arr, exp) => {
-    // console.log("counting sort");
     return new Promise((resolve) => {
       let sortedArray = new Array(arr.length);
       let bucket = new Array(10).fill(0);
@@ -388,8 +387,6 @@ function myFunc(algo) {
 
   function selectionSort(arr) {
     return new Promise((resolve) => {
-      console.log("selection Sort RUNNNING");
-
       let i = 0;
       let min = { val: 256, loc: null };
       const outerLoop = () => {
@@ -445,7 +442,6 @@ function myFunc(algo) {
       let j = start - 1;
 
       const swapAndRender = (j) => {
-        // console.log("quick sort swap");
         if (arr[j].val <= pivot) {
           i++;
           if (j === end) {

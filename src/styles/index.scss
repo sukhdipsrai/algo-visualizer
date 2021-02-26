@@ -45,6 +45,7 @@ body {
     min-height: 20px;
     margin: 2px;
   }
+
   button.selectedButton {
     border-top: 5px solid yellowgreen;
     padding-bottom: 5px;
@@ -72,6 +73,15 @@ body {
   justify-content: center;
   align-items: center;
   padding: 1vh;
+  #tutorial-info {
+    width: 5vh;
+    height: 5vh;
+    margin-left: 1vw;
+  }
+
+  a:hover {
+    cursor: pointer;
+  }
 }
 
 #sliceLoad {
@@ -178,4 +188,41 @@ button {
   opacity: 0.5;
   transition: 0.3s;
   position: relative;
+}
+
+.show-modal {
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.637); /* Black w/ opacity */
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    width: 80%; /* Could be more or less, depending on screen size */
+    height: 40%;
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+}
+.hide-modal {
+  display: none;
 }
