@@ -264,3 +264,22 @@ button.off {
   cursor: pointer;
   border-top: 5px solid black;
 }
+
+.magenta {
+  color: #ff00ff;
+}
+.yellow {
+  color: yellow;
+}
+.red {
+  color: red;
+}
+.legend p {
+  color: white;
+  text-align: center;
+}
+
+.tutorial-text p,
+.tab.about p {
+  font-weight: bold;
+}
