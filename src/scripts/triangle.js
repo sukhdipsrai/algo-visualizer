@@ -23,9 +23,9 @@ class Triangle {
       var canvasElement = document.getElementById("canvas");
       let ctx = this.canvas.ctx;
       let cw = canvasElement.width;
-      let ch = canvasElement.height - 200;
+      let ch = canvasElement.height;
 
-      let cy = ch / 2;
+      let cy = ch / 4;
       let cx = cw / 2;
 
       var triangle = {
