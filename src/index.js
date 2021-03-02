@@ -3,10 +3,6 @@ import "./styles/index.scss";
 import canvasExample from "./scripts/canvas";
 import Triangle from "./scripts/triangle";
 
-let algoSelect = { value: null };
-const canvas = new canvasExample();
-canvas.createCanvas();
-
 Array.from(document.getElementsByClassName("toggle-modal")).forEach((ele) => {
   ele.addEventListener("click", () => {
     modalHandler();
@@ -43,15 +39,17 @@ function modalHandler() {
 
 myFunc();
 function myFunc() {
-  let algo = null;
+  let algoSelect = { value: null };
+  const canvas = new canvasExample();
+  canvas.createCanvas();
   let myTri = [];
   let animating = true;
   let speed = { value: 5 };
   let sliceFactor = 8; // increasing will create more triangle slices
 
   const startHandler = (id) => {
+    console.log(speed);
     console.log("startHandler");
-    algo = algoSelect;
     reset();
     algoSelect.value = id;
 
@@ -69,7 +67,7 @@ function myFunc() {
 
   function startAlgo() {
     toggleSortButtons(true);
-    switch (algo.value) {
+    switch (algoSelect.value) {
       case "quick-sort":
         startQS();
         return;
