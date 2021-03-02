@@ -48,6 +48,7 @@ function myFunc() {
   let sliceFactor = 8; // increasing will create more triangle slices
 
   const startHandler = (id) => {
+    console.log(speed);
     console.log("startHandler");
     reset();
     algoSelect.value = id;
