@@ -4,19 +4,9 @@ import canvasExample from "./scripts/canvas";
 import Triangle from "./scripts/triangle";
 
 let algoSelect = { value: null };
-// TODO: loop over class list
-document.querySelector("#quick-sort").addEventListener("click", () => {
-  startHandler("quick-sort");
-});
-document.querySelector("#bubble-sort").addEventListener("click", () => {
-  startHandler("bubble-sort");
-});
-document.querySelector("#radix-sort").addEventListener("click", () => {
-  startHandler("radix-sort");
-});
-document.querySelector("#selection-sort").addEventListener("click", () => {
-  startHandler("selection-sort");
-});
+const canvas = new canvasExample();
+canvas.createCanvas();
+
 Array.from(document.getElementsByClassName("toggle-modal")).forEach((ele) => {
   ele.addEventListener("click", () => {
     modalHandler();
@@ -44,34 +34,37 @@ function ModalTabSwitch(id) {
     ele.classList.toggle("visible");
   });
 }
-const canvas = new canvasExample();
-canvas.createCanvas();
-
-function startHandler(id) {
-  if (algoSelect.value === null) {
-    myFunc(algoSelect);
-  }
-  algoSelect.value = id;
-
-  Array.from(document.getElementsByClassName("algo")).forEach((ele) => {
-    ele.classList.remove("selectedButton");
-  });
-  document.getElementById(id).classList.add("selectedButton");
-}
 
 function modalHandler() {
   let modal = document.getElementById("modal-tutorial");
   modal.classList.toggle("hide-modal");
   modal.classList.toggle("show-modal");
 }
-
-function myFunc(algo) {
+myFunc();
+function myFunc() {
+  let algo = null;
   let myTri = [];
   let animating = true;
   let speed = { value: 5 };
   let sliceFactor = 8; // increasing will create more triangle slices
 
-  reset();
+  const startHandler = (id) => {
+    console.log("startHandler");
+    algo = algoSelect;
+    reset();
+    algoSelect.value = id;
+
+    Array.from(document.getElementsByClassName("algo")).forEach((ele) => {
+      ele.classList.remove("selectedButton");
+    });
+    document.getElementById(id).classList.add("selectedButton");
+  };
+
+  Array.from(document.getElementsByClassName("algo")).forEach((ele) => {
+    ele.addEventListener("click", () => {
+      startHandler(ele.id);
+    });
+  });
 
   function startAlgo() {
     toggleSortButtons(true);
@@ -240,6 +233,7 @@ function myFunc(algo) {
 
   function reset() {
     initializeButtons();
+    enableButtons();
     resetVars();
     initializeArr();
   }
@@ -257,7 +251,7 @@ function myFunc(algo) {
   };
 
   window.requestAnimationFrame(animation);
-  // window.setTimeout(window.requestAnimationFrame(animation), 18);
+
   // Logic preformed on G value, keeping R abd B constant
   function blueRandomizer(inputshade, maxVal) {
     let shadeVal = Math.ceil((inputshade / maxVal) * 255);
@@ -282,6 +276,10 @@ function myFunc(algo) {
     let resetButton = document.getElementById("resetButton");
     resetButton.hidden = false;
     resetButton.classList.remove("unclickable");
+  }
+
+  function hideForwardButton() {
+    document.getElementById("forwardButtonContainer").hidden = true;
     toggleSortButtons(false);
   }
 
@@ -289,6 +287,7 @@ function myFunc(algo) {
     hideButtons();
     quickSort(myTri, 0, myTri.length - 1).then(() => {
       enableButtons();
+      hideForwardButton();
     });
   }
 
@@ -296,6 +295,7 @@ function myFunc(algo) {
     hideButtons();
     bubbleSort(myTri).then(() => {
       enableButtons();
+      hideForwardButton();
     });
   }
 
@@ -303,12 +303,14 @@ function myFunc(algo) {
     hideButtons();
     radixSort(myTri).then(() => {
       enableButtons();
+      hideForwardButton();
     });
   }
   function startSS() {
     hideButtons();
     selectionSort(myTri).then(() => {
       enableButtons();
+      hideForwardButton();
     });
   }
 
