@@ -271,7 +271,7 @@ function myFunc(algo) {
 
   function hideButtons() {
     document.getElementById("playButton").hidden = true;
-    document.getElementById("forwardButtonContainer").hidden = true;
+    // document.getElementById("forwardButtonContainer").hidden = true;
     document.getElementById("sliceButtonContainer").hidden = true;
     let resetButton = document.getElementById("resetButton");
     resetButton.hidden = true;
