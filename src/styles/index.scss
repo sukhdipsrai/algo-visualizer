@@ -56,6 +56,12 @@ body {
   button.clickable.selectedButton:hover {
     cursor: default;
   }
+  button.unclickable.selectedButton {
+    opacity: 1;
+  }
+  button.unclickable.selectedButton:hover {
+    opacity: 1;
+  }
   button.unclickable {
     opacity: 0.5;
     cursor: default;
