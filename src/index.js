@@ -40,6 +40,7 @@ function modalHandler() {
   modal.classList.toggle("hide-modal");
   modal.classList.toggle("show-modal");
 }
+
 myFunc();
 function myFunc() {
   let algo = null;
