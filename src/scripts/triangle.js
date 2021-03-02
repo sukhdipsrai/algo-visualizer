@@ -29,14 +29,14 @@ class Triangle {
       let cx = cw / 2;
 
       var triangle = {
-        //the first vertex is in the center of the canvas
-        //you may decide to change this.
+        //start
         x1: cx,
         y1: cy,
-        //the second vertex is on the circumscribed circle at 0 radians where R is the radius of the circle ( a = 30, b=30 )
-        //you may decide to change this.
+
+        //second point
         x2: this.xStart,
         y2: ch,
+
         //calculate the 3-rd vertex
         x3: this.xStart + this.xDist * canvasElement.width,
         y3: ch,

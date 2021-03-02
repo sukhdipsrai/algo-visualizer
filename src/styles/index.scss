@@ -50,10 +50,15 @@ body {
     border-top: 5px solid yellowgreen;
     padding-bottom: 5px;
     opacity: 1;
-    font-weight: 300px;
+    font-weight: 300;
+    cursor: default;
+  }
+  button.clickable.selectedButton:hover {
+    cursor: default;
   }
   button.unclickable {
     opacity: 0.5;
+    cursor: default;
   }
   button.clickable:hover {
     opacity: 1;
