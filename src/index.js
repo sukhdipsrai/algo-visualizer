@@ -440,14 +440,13 @@ function myFunc() {
     });
   }
 
-  function quickSort(arr, start, end, xStart = 0) {
-    // needed to setup a strong resolve, need to come back to this , reason: for pausing animation
+  function quickSort(arr, start, end) {
     return new Promise((resolve) => {
       if (start < end) {
-        quickSortPartition2(arr, start, end).then((pi) => {
+        quickSortPartition2(arr, start, end).then((pivotIndex) => {
           resolve(
-            quickSort(arr, start, pi - 1).then(() =>
-              quickSort(arr, pi + 1, end)
+            quickSort(arr, start, pivotIndex - 1).then(() =>
+              quickSort(arr, pivotIndex + 1, end)
             )
           );
         });
