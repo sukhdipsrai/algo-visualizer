@@ -10,7 +10,7 @@ After cloning the repo, use ```npm start``` to run the website on localhost:8080
 ## Technologies, Libraries, APIs
 
 - Canvas
-- Vanilla JS, HTML, CSS
+- Vanilla JavaScript, HTML, CSS
 
 ## Code Snippets
 ```
